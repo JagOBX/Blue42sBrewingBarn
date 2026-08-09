@@ -19,19 +19,14 @@
     /* ---------- Password gate ---------- */
     #gate{ height:100%; display:flex; align-items:center; justify-content:center; background:var(--navy); }
     #gate .box{ width:100%; max-width:340px; padding:32px 28px; background:#fff; border-radius:12px; box-shadow:0 20px 50px rgba(0,0,0,0.35); text-align:center; }
+    #gate img{ width:64px; height:64px; border-radius:12px; margin-bottom:14px; }
     #gate h1{ font-size:1.05rem; margin:0 0 6px; color:var(--navy); }
     #gate p{ font-size:0.85rem; color:var(--muted); margin:0 0 20px; }
     #gate input[type="password"]{ width:100%; padding:10px 12px; font-size:0.95rem; border:1px solid var(--border); border-radius:6px; margin-bottom:12px; }
     #gate button{ width:100%; padding:10px 12px; font-size:0.92rem; font-weight:600; border:none; border-radius:6px; background:var(--gold); color:var(--navy); cursor:pointer; }
     #gate button:hover{ background:#c98a24; }
+    #gate button:disabled{ opacity:0.6; cursor:default; }
     #gate-error{ color:var(--danger); font-size:0.82rem; margin-top:10px; min-height:1em; }
-
-    /* ---------- Branded login screen (Netlify Identity) ---------- */
-    #loginScreen{ display:none; height:100%; flex-direction:column; align-items:center; justify-content:center; gap:24px; }
-    #loginScreen img{ width:170px; height:170px; border-radius:16px; box-shadow:0 12px 30px rgba(11,28,52,0.18); }
-    #loginScreen button{ padding:12px 28px; font-size:0.95rem; font-weight:700; border:none; border-radius:8px; background:var(--navy); color:#fff; cursor:pointer; }
-    #loginScreen button:hover{ background:#12294d; }
-    #loginScreen .hint{ color:var(--muted); font-size:0.85rem; }
 
     /* ---------- App shell ---------- */
     #app{ display:none; min-height:100vh; }
@@ -48,8 +43,6 @@
     .status{ font-size:0.85rem; color:var(--muted); }
     .status.error{ color:var(--danger); font-weight:600; }
     .status.ok{ color:#1c7a3c; font-weight:600; }
-    .userbox{ display:flex; align-items:center; gap:10px; font-size:0.85rem; color:var(--muted); }
-    .avatar{ width:28px; height:28px; border-radius:50%; background:var(--gold); color:var(--navy); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.8rem; }
     .btn{ padding:9px 16px; border-radius:6px; font-size:0.85rem; font-weight:600; cursor:pointer; border:1px solid transparent; }
     .btn-primary{ background:var(--gold); color:var(--navy); }
     .btn-primary:hover{ background:#c98a24; }
@@ -85,29 +78,24 @@
 </head>
 <body>
 
-  <!-- Front gate: a shared-password check before the real login even loads.
-       Light deterrent only, not real security -- see SETUP.md. -->
+  <!-- The only lock on this page: one shared admin password. It is never
+       stored in this file -- every attempt is checked server-side by the
+       /admin-content function against the ADMIN_PASSWORD environment
+       variable, and the same password is then used to authorize saves. -->
   <div id="gate">
     <div class="box">
+      <img src="/images/brand/logo.png" alt="Blue 42's Brewing Barn" />
       <h1>Blue 42's Brewing Barn</h1>
-      <p>Enter the site password to continue to the content manager.</p>
+      <p>Enter the admin password to edit the site.</p>
       <form id="gate-form" autocomplete="off">
         <input type="password" id="gate-password" placeholder="Password" autofocus />
-        <button type="submit">Enter</button>
+        <button type="submit" id="gate-submit">Enter</button>
         <div id="gate-error"></div>
       </form>
     </div>
   </div>
 
-  <!-- Branded login screen shown once the gate is passed, before the admin
-       is signed in with their invited Netlify Identity account. -->
-  <div id="loginScreen">
-    <img src="/images/brand/logo.png" alt="Blue 42's Brewing Barn" />
-    <button id="loginBtn">Log in to edit the site</button>
-    <div class="hint">Only people invited by email can sign in here.</div>
-  </div>
-
-  <!-- The real content manager, shown once signed in. -->
+  <!-- The content manager, shown once the password is accepted. -->
   <div id="app">
     <div class="sidebar">
       <div class="brand">
@@ -122,11 +110,7 @@
     <div class="main">
       <div class="topbar">
         <div class="status" id="status"></div>
-        <div class="userbox">
-          <span class="avatar" id="avatar">?</span>
-          <span id="userEmail"></span>
-          <button class="btn btn-outline" id="logoutBtn">Log out</button>
-        </div>
+        <button class="btn btn-outline" id="logoutBtn">Log out</button>
       </div>
       <div class="content" id="content">
         <div class="loading">Loading…</div>
@@ -135,76 +119,48 @@
   </div>
 
   <script>
-    var GATE_PASSWORD = 'BackDoor42!';
-    var SESSION_KEY = 'blue42_admin_gate_ok';
-    var REPO_OWNER = 'JagOBX';
-    var REPO_NAME = 'Blue42sBrewingBarn';
-    var BRANCH = 'main';
+    var SESSION_KEY = 'blue42_admin_password';
 
-    /* ---------------- Gate ---------------- */
-    function loadIdentity() {
-      document.getElementById('gate').style.display = 'none';
-
-      var identityScript = document.createElement('script');
-      identityScript.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
-      identityScript.onload = initIdentity;
-      document.body.appendChild(identityScript);
+    /* ---------------- Password gate ---------------- */
+    function getStoredPassword() {
+      return sessionStorage.getItem(SESSION_KEY);
     }
 
-    if (sessionStorage.getItem(SESSION_KEY) === 'yes') {
-      loadIdentity();
+    function tryEnter(password) {
+      var btn = document.getElementById('gate-submit');
+      var err = document.getElementById('gate-error');
+      btn.disabled = true;
+      err.textContent = '';
+      apiFetch('data/events.json', 'GET', null, password).then(function () {
+        sessionStorage.setItem(SESSION_KEY, password);
+        showApp();
+      }).catch(function (e) {
+        btn.disabled = false;
+        err.textContent = e.message === 'Incorrect password.' ? e.message : 'Could not verify password -- try again.';
+      });
     }
 
     document.getElementById('gate-form').addEventListener('submit', function (e) {
       e.preventDefault();
-      var entered = document.getElementById('gate-password').value;
-      if (entered === GATE_PASSWORD) {
-        sessionStorage.setItem(SESSION_KEY, 'yes');
-        loadIdentity();
-      } else {
-        document.getElementById('gate-error').textContent = 'Incorrect password.';
-        document.getElementById('gate-password').value = '';
-        document.getElementById('gate-password').focus();
-      }
+      tryEnter(document.getElementById('gate-password').value);
     });
 
-    /* ---------------- Netlify Identity ---------------- */
-    function initIdentity() {
-      var widget = window.netlifyIdentity;
-      if (!widget) { return; }
-
-      widget.on('init', function (user) {
-        if (user) { showApp(user); } else { showLogin(); }
-      });
-      widget.on('login', function (user) {
-        widget.close();
-        showApp(user);
-      });
-      widget.on('logout', function () {
-        showLogin();
-      });
-
-      document.getElementById('loginBtn').addEventListener('click', function () {
-        widget.open('login');
-      });
-      document.getElementById('logoutBtn').addEventListener('click', function () {
-        widget.logout();
-      });
-
-      widget.init();
-    }
-
-    function showLogin() {
+    document.getElementById('logoutBtn').addEventListener('click', function () {
+      sessionStorage.removeItem(SESSION_KEY);
+      eventsStore = null; menuStore = null;
+      document.getElementById('gate-password').value = '';
       document.getElementById('app').style.display = 'none';
-      document.getElementById('loginScreen').style.display = 'flex';
-    }
+      document.getElementById('gate').style.display = 'flex';
+    });
 
-    function showApp(user) {
-      document.getElementById('loginScreen').style.display = 'none';
+    (function autoLogin() {
+      var saved = getStoredPassword();
+      if (saved) { showApp(); }
+    })();
+
+    function showApp() {
+      document.getElementById('gate').style.display = 'none';
       document.getElementById('app').style.display = 'block';
-      var email = (user && user.email) || '';
-      document.getElementById('userEmail').textContent = email;
-      document.getElementById('avatar').textContent = email ? email[0].toUpperCase() : '?';
       wireNav();
       switchView('events');
     }
@@ -224,13 +180,7 @@
       if (view === 'events') { loadEvents(); } else { loadMenu(); }
     }
 
-    /* ---------------- Git Gateway helpers ---------------- */
-    function getToken() {
-      var user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
-      if (!user) { return Promise.reject(new Error('You have been signed out. Refresh and log in again.')); }
-      return user.jwt();
-    }
-
+    /* ---------------- Backend helpers ---------------- */
     function b64EncodeUnicode(str) {
       return btoa(unescape(encodeURIComponent(str)));
     }
@@ -238,33 +188,39 @@
       return decodeURIComponent(escape(atob(str.replace(/\n/g, ''))));
     }
 
-    function ghGet(path) {
-      return getToken().then(function (token) {
-        return fetch('/.netlify/git/github/contents/' + path + '?ref=' + BRANCH, {
-          headers: { Authorization: 'Bearer ' + token }
+    function apiFetch(path, method, body, passwordOverride) {
+      var password = passwordOverride || getStoredPassword();
+      var opts = {
+        method: method,
+        headers: { Authorization: 'Bearer ' + password }
+      };
+      var url = '/.netlify/functions/content';
+      if (method === 'GET') {
+        url += '?path=' + encodeURIComponent(path);
+      } else {
+        opts.headers['Content-Type'] = 'application/json';
+        opts.body = JSON.stringify(body);
+      }
+      return fetch(url, opts).then(function (res) {
+        return res.json().then(function (json) {
+          if (!res.ok) {
+            if (res.status === 401) { sessionStorage.removeItem(SESSION_KEY); }
+            throw new Error(json.error || ('Request failed (status ' + res.status + ')'));
+          }
+          return json;
         });
-      }).then(function (res) {
-        if (!res.ok) { throw new Error('Could not load ' + path + ' (status ' + res.status + ')'); }
-        return res.json();
-      }).then(function (json) {
+      });
+    }
+
+    function ghGet(path) {
+      return apiFetch(path, 'GET').then(function (json) {
         return { data: JSON.parse(b64DecodeUnicode(json.content)), sha: json.sha };
       });
     }
 
     function ghPut(path, dataObj, sha, message) {
-      return getToken().then(function (token) {
-        var content = b64EncodeUnicode(JSON.stringify(dataObj, null, 2) + '\n');
-        return fetch('/.netlify/git/github/contents/' + path, {
-          method: 'PUT',
-          headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: message, content: content, sha: sha, branch: BRANCH })
-        });
-      }).then(function (res) {
-        if (!res.ok) {
-          return res.text().then(function (t) { throw new Error('Save failed (status ' + res.status + '). ' + t); });
-        }
-        return res.json();
-      });
+      var content = b64EncodeUnicode(JSON.stringify(dataObj, null, 2) + '\n');
+      return apiFetch(path, 'PUT', { path: path, content: content, sha: sha, message: message });
     }
 
     /* ---------------- Status banner ---------------- */
@@ -490,7 +446,7 @@
         btn.disabled = true;
         setStatus('Saving…');
         ghPut(path, store.data, store.sha, message).then(function (result) {
-          store.sha = result.content.sha;
+          store.sha = result.sha;
           setStatus('Saved ✓ — your site will update in about a minute.', 'ok');
           btn.disabled = false;
         }).catch(function (err) {
