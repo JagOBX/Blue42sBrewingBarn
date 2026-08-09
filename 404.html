@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found | Blue 42's Brewing Barn</title>
+<meta name="description" content="The page you're looking for can't be found. Head back to Blue 42's Brewing Barn in Moyock, NC.">
+<link rel="canonical" href="https://www.blue42sbrewingbarn.com/404.html">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/png" href="images/brand/logo.png">
+<link rel="apple-touch-icon" href="images/brand/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#122c4e;
+    --navy-deep:#0b1c34;
+    --blue:#1d4f8f;
+    --blue-bright:#2f6fc4;
+    --gold:#d99a34;
+    --gold-light:#f0b95c;
+    --gold-text:#8a5a12;
+    --text-muted:#5a5347;
+    --cream:#faf5ea;
+    --cream-dark:#f0e6d2;
+    --wood:#5a3a26;
+    --wood-dark:#3c2617;
+    --ink:#241a12;
+    --white:#ffffff;
+    --radius:14px;
+    --shadow: 0 10px 30px rgba(11,28,52,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    line-height:1.15;
+    font-weight:600;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .skip-link{
+    position:absolute;
+    left:12px; top:-60px;
+    background:var(--navy-deep);
+    color:#ffffff;
+    padding:12px 20px;
+    border-radius:8px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    z-index:1000;
+    transition:top .2s ease;
+  }
+  .skip-link:focus{ top:12px; }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:3px solid #ffffff;
+    outline-offset:2px;
+    box-shadow:0 0 0 6px rgba(11,28,52,0.85);
+    border-radius:inherit;
+  }
+  a:focus:not(:focus-visible), button:focus:not(:focus-visible){
+    outline:none;
+    box-shadow:none;
+  }
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+  .eyebrow{
+    font-size:0.78rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--gold-text);
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 30px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:0.95rem;
+    letter-spacing:0.02em;
+    border:2px solid transparent;
+    cursor:pointer;
+    transition:transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1), background 0.25s ease, color 0.25s ease;
+  }
+  .btn-primary{
+    background:var(--gold);
+    color:var(--navy-deep);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 24px rgba(217,154,52,0.35);}
+  .btn-outline-dark{
+    border-color:var(--navy);
+    color:var(--navy);
+    background:transparent;
+  }
+  .btn-outline-dark:hover{background:var(--navy); color:var(--white); box-shadow:0 12px 22px rgba(11,28,52,0.16);}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    background:rgba(11,28,52,0.0);
+    transition:background .3s ease, box-shadow .3s ease, padding .3s ease;
+    padding:22px 0;
+  }
+  header.scrolled{
+    background:rgba(11,28,52,0.94);
+    backdrop-filter:blur(8px);
+    box-shadow:0 6px 24px rgba(0,0,0,0.18);
+    padding:12px 0;
+  }
+  .nav-wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:var(--white);
+  }
+  .logo .mark{
+    width:42px; height:42px;
+    flex-shrink:0;
+  }
+  .logo .word{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:1.18rem;
+    letter-spacing:0.01em;
+    line-height:1.1;
+  }
+  .logo .word span{
+    display:block;
+    font-family:'Work Sans', sans-serif;
+    font-weight:500;
+    font-size:0.62rem;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    margin-top:3px;
+  }
+  nav ul{
+    display:flex;
+    gap:34px;
+    list-style:none;
+  }
+  nav a{
+    color:var(--white);
+    font-size:0.92rem;
+    font-weight:500;
+    letter-spacing:0.01em;
+    position:relative;
+    padding:4px 0;
+  }
+  nav a::after{
+    content:"";
+    position:absolute; left:0; bottom:-3px;
+    width:0; height:2px;
+    background:var(--gold);
+    transition:width .25s ease;
+  }
+  nav a:hover::after{width:100%;}
+  .nav-cta{display:flex; align-items:center; gap:16px;}
+  .nav-toggle{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    background:none; border:none; cursor:pointer;
+    padding:6px;
+  }
+  .nav-toggle span{width:26px; height:2px; background:var(--white); display:block;}
+
+  @media (max-width:900px){
+    nav{
+      position:fixed;
+      top:0; right:-100%;
+      width:78%; max-width:340px; height:100vh;
+      background:var(--navy-deep);
+      flex-direction:column;
+      padding:100px 36px 40px;
+      transition:right .35s ease, visibility 0s linear .35s;
+      box-shadow:-10px 0 30px rgba(0,0,0,0.3);
+      visibility:hidden;
+    }
+    nav.open{right:0; visibility:visible; transition:right .35s ease, visibility 0s linear 0s;}
+    nav ul{flex-direction:column; gap:26px;}
+    .nav-cta{display:none;}
+    .nav-toggle{display:flex;}
+  }
+
+  /* ---------- 404 ---------- */
+  .error-section{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding:180px 0 100px;
+  }
+  .error-inner{
+    max-width:620px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .error-code{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:clamp(3.4rem, 9vw, 5.6rem);
+    color:var(--gold);
+    line-height:1;
+    margin-top:14px;
+  }
+  .error-section h1{
+    font-size:clamp(1.7rem, 3.2vw, 2.3rem);
+    color:var(--navy-deep);
+    margin:18px 0 16px;
+  }
+  .error-section p{
+    font-size:1.02rem;
+    color:var(--text-muted);
+    max-width:480px;
+    margin:0 auto 34px;
+  }
+  .error-actions{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-bottom:44px;
+  }
+  .error-links{
+    display:flex;
+    gap:12px 28px;
+    justify-content:center;
+    flex-wrap:wrap;
+    font-size:0.92rem;
+    padding-top:28px;
+    border-top:1px solid rgba(18,44,78,0.12);
+  }
+  .error-links a{
+    color:var(--navy);
+    font-weight:600;
+    position:relative;
+    padding:4px 0;
+  }
+  .error-links a::after{
+    content:"";
+    position:absolute; left:0; bottom:0;
+    width:0; height:2px;
+    background:var(--gold);
+    transition:width .25s ease;
+  }
+  .error-links a:hover::after{width:100%;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--wood-dark);
+    color:rgba(255,255,255,0.78);
+    padding:64px 0 28px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:48px;
+    padding-bottom:40px;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  .footer-logo{
+    display:flex; align-items:center; gap:12px;
+    color:var(--white); margin-bottom:14px;
+  }
+  .footer-logo .mark{width:36px; height:36px;}
+  .footer-logo span{font-family:'Fraunces', serif; font-weight:700; font-size:1.1rem;}
+  .footer-col h3{
+    color:var(--white);
+    font-size:0.82rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:700;
+  }
+  .footer-col a{
+    display:block;
+    font-size:0.92rem;
+    margin-bottom:10px;
+    color:rgba(255,255,255,0.72);
+  }
+  .footer-col a:hover{color:var(--gold-light);}
+  .social-row{display:flex; gap:12px; margin-top:6px;}
+  .social-row a{
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.24);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:0;
+  }
+  .social-row a svg{width:17px; height:17px;}
+  .social-row a:hover{background:var(--gold); border-color:var(--gold); color:var(--navy-deep);}
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:26px;
+    font-size:0.82rem;
+    color:rgba(255,255,255,0.68);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  @media (max-width:900px){
+    .footer-grid{grid-template-columns:1fr; gap:32px;}
+  }
+  @media (max-width:560px){
+    .error-section{padding:150px 0 70px;}
+  }
+
+  /* ---------- SCROLL ANIMATIONS ---------- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(26px);
+      transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1), visibility 0s linear 0s;
+      transition-delay:var(--reveal-delay, 0s);
+      will-change:opacity, transform;
+    }
+    .reveal.in-view{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0);
+    }
+  }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<!-- ================= HEADER ================= -->
+<header id="siteHeader">
+  <div class="container nav-wrap">
+    <a href="index.html" class="logo">
+      <img class="mark" src="images/brand/logo.png" alt="Blue 42's Brewing Barn logo" width="240" height="240" style="border-radius:50%;">
+      <span class="word">Blue 42's<span>Brewing Barn</span></span>
+    </a>
+    <nav id="siteNav">
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="hours.html">Hours &amp; Location</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-outline" style="border-color:rgba(255,255,255,0.55); color:var(--white);" href="tel:12522320757">(252) 232-0757</a>
+      <a class="btn btn-primary" href="hours.html">Get Directions</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="siteNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main-content">
+<section class="error-section">
+  <div class="container">
+    <div class="error-inner reveal">
+      <p class="eyebrow">Page Not Found</p>
+      <p class="error-code">404</p>
+      <h1>Looks like this page wandered off the back lawn.</h1>
+      <p>The page you're looking for doesn't exist, or it may have moved. Let's get you back to the good stuff &mdash; coffee, craft beer, and a seat at the Barn.</p>
+      <div class="error-actions">
+        <a class="btn btn-primary" href="index.html">Back to the Homepage</a>
+        <a class="btn btn-outline-dark" href="menu.html">See the Menu</a>
+      </div>
+      <div class="error-links">
+        <a href="menu.html">Menu</a>
+        <a href="hours.html">Hours &amp; Location</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img class="mark" src="images/brand/logo.png" alt="Blue 42's Brewing Barn logo" width="240" height="240" style="border-radius:50%;">
+          <span>Blue 42's Brewing Barn</span>
+        </div>
+        <p style="max-width:320px; font-size:0.9rem;">Local craft beer, NC wine, coffee &amp; homemade fudge in Moyock, NC.<br>A family place, built on family land.</p>
+        <div class="social-row">
+          <a href="https://www.facebook.com/Blue42sBrewingBarn" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14v-2c0-1 .3-1.8 2-1.8h1.6V2.2C17.3 2.1 15.9 2 14.3 2 11 2 9 4 9 7.6v1.9H6v4h3V22h5v-8.5Z"/></svg></a>
+          <a href="https://www.instagram.com/blue42sbrewingbarn/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Explore</h3>
+        <a href="menu.html">Menu</a>
+        <a href="hours.html">Hours &amp; Location</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+      </div>
+      <div class="footer-col">
+        <h3>Visit</h3>
+        <a href="hours.html">2132 Caratoke Hwy, Moyock, NC 27958</a>
+        <a href="tel:12522320757">(252) 232-0757</a>
+        <a href="https://www.facebook.com/Blue42sBrewingBarn" target="_blank" rel="noopener">Facebook Page</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Blue 42's Brewing Barn. Made with love in Currituck County.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // header always solid on this page (no hero image behind it)
+  const header = document.getElementById('siteHeader');
+  header.classList.add('scrolled');
+
+  // mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const siteNav = document.getElementById('siteNav');
+  function setNavOpen(isOpen) {
+    siteNav.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  }
+  navToggle.addEventListener('click', () => setNavOpen(!siteNav.classList.contains('open')));
+  siteNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setNavOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && siteNav.classList.contains('open')) {
+      setNavOpen(false);
+      navToggle.focus();
+    }
+  });
+
+  // gentle fade-and-rise reveal for the main message
+  (function () {
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var el = document.querySelector('.reveal');
+    if (!prefersReduced && el && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      io.observe(el);
+    }
+  })();
+</script>
+</body>
+</html>

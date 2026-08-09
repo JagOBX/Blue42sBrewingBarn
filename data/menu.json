@@ -1,0 +1,50 @@
+{
+  "tabs": [
+    {
+      "id": "coffee",
+      "label": "Coffee & Frappés",
+      "note": "☕ Coffee bar open daily 7:00 AM to 6:00 PM.",
+      "items": [
+        { "name": "Signature Latte", "desc": "House espresso, steamed milk, seasonal flavor", "price": "$5.50" },
+        { "name": "Cold Brew", "desc": "Slow steeped, served over ice", "price": "$4.75" },
+        { "name": "Cookies & Cream Frappé", "desc": "Blended espresso treat", "price": "$8.00" },
+        { "name": "Java Mocha Frappé", "desc": "Espresso, chocolate, whipped cream", "price": "$7.00" },
+        { "name": "Espresso Shot", "desc": "Single or double", "price": "$3.25" },
+        { "name": "Iced Refresher", "desc": "Fruit forward, caffeine free option", "price": "$5.25" }
+      ]
+    },
+    {
+      "id": "smoothies",
+      "label": "Smoothies & Whirzles",
+      "note": "🍓 Flavors rotate seasonally. Ask what's fresh behind the counter.",
+      "items": [
+        { "name": "Strawberry Smoothie", "desc": "Real fruit, blended fresh", "price": "$6.25" },
+        { "name": "Mango Smoothie", "desc": "Real fruit, blended fresh", "price": "$6.25" },
+        { "name": "Mixed Berry Smoothie", "desc": "Real fruit, blended fresh", "price": "$6.25" },
+        { "name": "Vanilla Whirzle", "desc": "Soft serve treat, ask about the buy one get one special", "price": "$16.00 (2 for $8)" }
+      ]
+    },
+    {
+      "id": "beerwine",
+      "label": "Beer & Wine",
+      "note": "🍺 Beer & wine served Sun to Thu 11:00 AM to 8:00 PM · Fri to Sat 11:00 AM to 10:00 PM.",
+      "items": [
+        { "name": "Seven Sounds Brewery Taps", "desc": "4 rotating drafts, Elizabeth City NC", "price": "Ask" },
+        { "name": "Regional Craft Cans", "desc": "Beer Zombies, O'Connor, Nansemond Brewing & more", "price": "Ask" },
+        { "name": "Sanctuary Vineyards Wine", "desc": "Local Outer Banks vineyard, glass or bottle", "price": "Ask" },
+        { "name": "Outer Banks Winery", "desc": "Reds, whites & seasonal blends", "price": "Ask" }
+      ]
+    },
+    {
+      "id": "food",
+      "label": "Food & Sweets",
+      "note": "🥪 Food truck schedule and daily specials are posted on our Facebook page.",
+      "items": [
+        { "name": "Belcross Biscuit Co. Biscuits", "desc": "Grab and go, made locally", "price": "Ask" },
+        { "name": "Sandwiches", "desc": "Rotating grab and go selection", "price": "Ask" },
+        { "name": "Powell's Roadside Fudge", "desc": "Homemade, multiple flavors", "price": "By the slice" },
+        { "name": "Rotating Food Trucks", "desc": "Check Facebook for who's parked out back", "price": "Varies" }
+      ]
+    }
+  ]
+}

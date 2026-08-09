@@ -1,0 +1,96 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Only people invited through Netlify Identity can log in and edit.
+local_backend: false
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "events"
+    label: "Events Page"
+    files:
+      - file: "data/events.json"
+        label: "Events"
+        name: "events"
+        description: "Everything shown in the Events section of the website."
+        fields:
+          - label: "Intro text (under the 'Events' heading)"
+            name: "sectionIntro"
+            widget: "text"
+
+          - label: "Featured Event"
+            name: "featured"
+            widget: "object"
+            summary: "{{fields.title}}"
+            fields:
+              - label: "Tag (small label, e.g. \"Featured · Sat, Oct 17\")"
+                name: "tag"
+                widget: "string"
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: "string"
+                required: false
+              - label: "Description"
+                name: "body"
+                widget: "text"
+                required: false
+
+          - label: "Other Events"
+            name: "events"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - label: "Tag (small label, e.g. \"Weekly · Saturdays\")"
+                name: "tag"
+                widget: "string"
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Description"
+                name: "body"
+                widget: "text"
+
+  - name: "menu"
+    label: "Menu Page"
+    files:
+      - file: "data/menu.json"
+        label: "Menu"
+        name: "menu"
+        description: "Everything shown on the Menu page, organized into tabs."
+        fields:
+          - label: "Menu Tabs"
+            name: "tabs"
+            widget: "list"
+            summary: "{{fields.label}}"
+            fields:
+              - label: "Tab ID (short, no spaces, e.g. \"coffee\")"
+                name: "id"
+                widget: "string"
+                hint: "Used internally to link the tab to its items. Lowercase letters and dashes only, no spaces."
+              - label: "Tab Name (shown to customers, e.g. \"Coffee & Frappés\")"
+                name: "label"
+                widget: "string"
+              - label: "Note (small text under the items, e.g. hours or a tip)"
+                name: "note"
+                widget: "string"
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: "list"
+                summary: "{{fields.name}}"
+                fields:
+                  - label: "Name"
+                    name: "name"
+                    widget: "string"
+                  - label: "Description"
+                    name: "desc"
+                    widget: "string"
+                    required: false
+                  - label: "Price"
+                    name: "price"
+                    widget: "string"
+                    required: false

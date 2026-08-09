@@ -1,0 +1,11 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor/tooling junk
+.vscode/
+*.swp
+
+# Just in case any local tooling gets installed later
+node_modules/
+npm-debug.log*

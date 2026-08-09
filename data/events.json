@@ -1,0 +1,25 @@
+{
+  "sectionIntro": "The Barn hosts live music most weekends, plus a few bigger outdoor shows on the lawn each year. Follow Facebook for the current lineup.",
+  "featured": {
+    "tag": "Featured · Sat, Oct 17",
+    "title": "Fall Festival: Boots & Brews",
+    "body": "Boots, brews, and live music by The Deloreans starting at 11 AM. One of the Barn's biggest days of the year. Bring the whole family out to the back lawn."
+  },
+  "events": [
+    {
+      "tag": "Weekly · Saturdays",
+      "title": "Karaoke with Mandy & Mitch",
+      "body": "Grab the mic and be the star of the night. Saturdays, 7 to 10 PM."
+    },
+    {
+      "tag": "Monthly",
+      "title": "Music Bingo",
+      "body": "Music, prizes, and drinks. A hosted bingo night for the whole crew."
+    },
+    {
+      "tag": "Rotating",
+      "title": "Food Truck Days",
+      "body": "Local food trucks rotate through the lot to keep the menu fresh. Check Facebook to see who's parked out back this week."
+    }
+  ]
+}

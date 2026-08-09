@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Blue 42's Brewing Barn - Content Manager</title>
+  <style>
+    /* Styles only for the password gate. Decap CMS supplies its own
+       styling once it loads, so nothing here needs to match the site. */
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0b1c34;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #gate {
+      width: 100%;
+      max-width: 340px;
+      padding: 32px 28px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      text-align: center;
+    }
+    #gate h1 {
+      font-size: 1.05rem;
+      margin: 0 0 6px;
+      color: #0b1c34;
+    }
+    #gate p {
+      font-size: 0.85rem;
+      color: #5a6472;
+      margin: 0 0 20px;
+    }
+    #gate input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      border: 1px solid #c7cdd6;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+    #gate button {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      background: #d99a34;
+      color: #0b1c34;
+      cursor: pointer;
+    }
+    #gate button:hover { background: #c98a24; }
+    #gate-error {
+      color: #b3261e;
+      font-size: 0.82rem;
+      margin-top: 10px;
+      min-height: 1em;
+    }
+    #cms-root { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Front gate: a simple shared-password check that runs before the
+       real CMS is even loaded. This is a light deterrent to keep casual
+       visitors from reaching the login screen, NOT real security. Anyone
+       who reads this page's source can see how it works. The actual
+       access control for saving content is Netlify Identity + Git
+       Gateway below, which only lets invited, logged-in users write to
+       the repo. Change the password by editing GATE_PASSWORD. -->
+  <div id="gate">
+    <h1>Blue 42's Brewing Barn</h1>
+    <p>Enter the site password to continue to the content manager.</p>
+    <form id="gate-form" autocomplete="off">
+      <input type="password" id="gate-password" placeholder="Password" autofocus />
+      <button type="submit">Enter</button>
+      <div id="gate-error"></div>
+    </form>
+  </div>
+
+  <div id="cms-root"></div>
+
+  <script>
+    var GATE_PASSWORD = 'BackDoor42!';
+    var SESSION_KEY = 'blue42_admin_gate_ok';
+
+    function loadCMS() {
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('cms-root').style.display = 'block';
+
+      var identityScript = document.createElement('script');
+      identityScript.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+      identityScript.onload = function () {
+        if (window.netlifyIdentity) {
+          window.netlifyIdentity.on('init', function (user) {
+            if (!user) {
+              window.netlifyIdentity.on('login', function () {
+                document.location.href = '/admin/';
+              });
+            }
+          });
+        }
+        var cmsScript = document.createElement('script');
+        cmsScript.src = 'https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js';
+        document.body.appendChild(cmsScript);
+      };
+      document.body.appendChild(identityScript);
+    }
+
+    // Skip the prompt for the rest of this browser tab's session once the
+    // correct password has been entered once.
+    if (sessionStorage.getItem(SESSION_KEY) === 'yes') {
+      loadCMS();
+    }
+
+    document.getElementById('gate-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var entered = document.getElementById('gate-password').value;
+      if (entered === GATE_PASSWORD) {
+        sessionStorage.setItem(SESSION_KEY, 'yes');
+        loadCMS();
+      } else {
+        document.getElementById('gate-error').textContent = 'Incorrect password.';
+        document.getElementById('gate-password').value = '';
+        document.getElementById('gate-password').focus();
+      }
+    });
+  </script>
+</body>
+</html>
