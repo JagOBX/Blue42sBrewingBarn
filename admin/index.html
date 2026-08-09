@@ -4,119 +4,155 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/images/brand/logo.png" />
   <title>Blue 42's Brewing Barn - Content Manager</title>
   <style>
-    /* Styles only for the password gate. Decap CMS supplies its own
-       styling once it loads, so nothing here needs to match the site. */
-    html, body { height: 100%; margin: 0; }
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #0b1c34;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    :root{
+      --navy:#0b1c34; --gold:#d99a34; --gold-hi:#f0b95c; --bg:#f2f4f7;
+      --text:#1a2233; --muted:#5a6472; --muted2:#7a8494; --border:#c7cdd6;
+      --border2:#dde1e8; --card:#fbfbfd; --warn:#8a5a12; --danger:#b3261e;
     }
-    #gate {
-      width: 100%;
-      max-width: 340px;
-      padding: 32px 28px;
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-      text-align: center;
-    }
-    #gate h1 {
-      font-size: 1.05rem;
-      margin: 0 0 6px;
-      color: #0b1c34;
-    }
-    #gate p {
-      font-size: 0.85rem;
-      color: #5a6472;
-      margin: 0 0 20px;
-    }
-    #gate input[type="password"] {
-      width: 100%;
-      padding: 10px 12px;
-      font-size: 0.95rem;
-      border: 1px solid #c7cdd6;
-      border-radius: 6px;
-      margin-bottom: 12px;
-      box-sizing: border-box;
-    }
-    #gate button {
-      width: 100%;
-      padding: 10px 12px;
-      font-size: 0.92rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 6px;
-      background: #d99a34;
-      color: #0b1c34;
-      cursor: pointer;
-    }
-    #gate button:hover { background: #c98a24; }
-    #gate-error {
-      color: #b3261e;
-      font-size: 0.82rem;
-      margin-top: 10px;
-      min-height: 1em;
-    }
-    #cms-root { display: none; }
+    *{box-sizing:border-box;}
+    html,body{height:100%; margin:0;}
+    body{font-family:'Segoe UI', Arial, sans-serif; background:var(--bg); color:var(--text);}
+
+    /* ---------- Password gate ---------- */
+    #gate{ height:100%; display:flex; align-items:center; justify-content:center; background:var(--navy); }
+    #gate .box{ width:100%; max-width:340px; padding:32px 28px; background:#fff; border-radius:12px; box-shadow:0 20px 50px rgba(0,0,0,0.35); text-align:center; }
+    #gate h1{ font-size:1.05rem; margin:0 0 6px; color:var(--navy); }
+    #gate p{ font-size:0.85rem; color:var(--muted); margin:0 0 20px; }
+    #gate input[type="password"]{ width:100%; padding:10px 12px; font-size:0.95rem; border:1px solid var(--border); border-radius:6px; margin-bottom:12px; }
+    #gate button{ width:100%; padding:10px 12px; font-size:0.92rem; font-weight:600; border:none; border-radius:6px; background:var(--gold); color:var(--navy); cursor:pointer; }
+    #gate button:hover{ background:#c98a24; }
+    #gate-error{ color:var(--danger); font-size:0.82rem; margin-top:10px; min-height:1em; }
+
+    /* ---------- Branded login screen (Netlify Identity) ---------- */
+    #loginScreen{ display:none; height:100%; flex-direction:column; align-items:center; justify-content:center; gap:24px; }
+    #loginScreen img{ width:170px; height:170px; border-radius:16px; box-shadow:0 12px 30px rgba(11,28,52,0.18); }
+    #loginScreen button{ padding:12px 28px; font-size:0.95rem; font-weight:700; border:none; border-radius:8px; background:var(--navy); color:#fff; cursor:pointer; }
+    #loginScreen button:hover{ background:#12294d; }
+    #loginScreen .hint{ color:var(--muted); font-size:0.85rem; }
+
+    /* ---------- App shell ---------- */
+    #app{ display:none; min-height:100vh; }
+    .sidebar{ width:230px; background:var(--navy); color:#fff; flex-shrink:0; padding:22px 0; position:fixed; top:0; bottom:0; left:0; overflow-y:auto; }
+    .sidebar .brand{ display:flex; align-items:center; gap:10px; padding:0 20px 22px; font-weight:700; font-size:1.0rem; border-bottom:1px solid rgba(255,255,255,0.12); margin-bottom:14px; }
+    .sidebar .brand .dot{ width:34px; height:34px; border-radius:8px; overflow:hidden; flex-shrink:0; background:var(--gold); }
+    .sidebar .brand .dot img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .sidebar nav{ display:flex; flex-direction:column; }
+    .sidebar nav a{ display:flex; align-items:center; gap:10px; padding:12px 20px; color:#c7d1e0; text-decoration:none; cursor:pointer; font-size:0.92rem; font-weight:600; border-right:3px solid transparent; }
+    .sidebar nav a:hover{ background:rgba(255,255,255,0.06); }
+    .sidebar nav a.active{ background:rgba(217,154,52,0.18); color:var(--gold-hi); border-right:3px solid var(--gold-hi); }
+    .main{ margin-left:230px; min-height:100vh; display:flex; flex-direction:column; }
+    .topbar{ display:flex; align-items:center; justify-content:space-between; padding:14px 28px; background:#fff; border-bottom:1px solid var(--border2); position:sticky; top:0; z-index:5; }
+    .status{ font-size:0.85rem; color:var(--muted); }
+    .status.error{ color:var(--danger); font-weight:600; }
+    .status.ok{ color:#1c7a3c; font-weight:600; }
+    .userbox{ display:flex; align-items:center; gap:10px; font-size:0.85rem; color:var(--muted); }
+    .avatar{ width:28px; height:28px; border-radius:50%; background:var(--gold); color:var(--navy); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.8rem; }
+    .btn{ padding:9px 16px; border-radius:6px; font-size:0.85rem; font-weight:600; cursor:pointer; border:1px solid transparent; }
+    .btn-primary{ background:var(--gold); color:var(--navy); }
+    .btn-primary:hover{ background:#c98a24; }
+    .btn-primary:disabled{ opacity:0.6; cursor:default; }
+    .btn-outline{ background:#fff; border-color:var(--border); color:#3c4658; }
+    .btn-outline:hover{ background:#f2f4f7; }
+    .content{ padding:28px; max-width:760px; }
+    .panel-title{ font-size:1.3rem; font-weight:700; margin-bottom:18px; color:var(--navy); }
+    .card{ border:1px solid var(--border2); border-radius:8px; background:var(--card); padding:20px; margin-bottom:20px; }
+    .card h3{ margin:0 0 14px; font-size:1rem; color:var(--navy); }
+    .field{ margin-bottom:16px; }
+    .field:last-child{ margin-bottom:0; }
+    .field > label{ display:block; font-weight:700; font-size:0.85rem; margin-bottom:6px; color:var(--text); }
+    .field .hint{ font-size:0.78rem; color:var(--muted2); margin-bottom:6px; }
+    .field input[type="text"], .field textarea{ width:100%; border:1px solid var(--border); border-radius:6px; padding:10px 12px; font-size:0.92rem; background:#fff; color:var(--text); font-family:inherit; }
+    .field textarea{ resize:vertical; }
+    .list-item{ border:1px solid var(--border2); border-radius:8px; background:#fff; margin-bottom:12px; overflow:hidden; }
+    .list-item-head{ display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:var(--bg); border-bottom:1px solid var(--border2); font-weight:600; font-size:0.88rem; }
+    .list-item-body{ padding:16px; }
+    .controls{ display:flex; gap:4px; }
+    .icon-btn{ width:26px; height:26px; border-radius:5px; border:1px solid var(--border); background:#fff; color:var(--muted); cursor:pointer; font-size:0.85rem; line-height:1; }
+    .icon-btn:hover{ background:var(--bg); }
+    .icon-btn.danger:hover{ background:#fdeceb; color:var(--danger); border-color:#f3b9b3; }
+    .btn-add{ width:100%; padding:10px 16px; border:1px dashed #b7bec9; border-radius:6px; color:var(--muted); font-size:0.85rem; font-weight:600; background:#fff; cursor:pointer; }
+    .btn-add:hover{ background:var(--bg); }
+    .tab-block{ border:1px solid var(--border2); border-radius:8px; background:#fff; margin-bottom:16px; overflow:hidden; }
+    .tab-block-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:var(--navy); color:#fff; font-weight:700; font-size:0.9rem; }
+    .tab-block-body{ padding:16px; }
+    .items-label{ font-weight:700; font-size:0.85rem; margin:14px 0 8px; color:var(--text); }
+    .save-bar{ display:flex; align-items:center; gap:14px; padding:18px 0 40px; }
+    .loading{ padding:40px; text-align:center; color:var(--muted); }
   </style>
 </head>
 <body>
 
-  <!-- Front gate: a simple shared-password check that runs before the
-       real CMS is even loaded. This is a light deterrent to keep casual
-       visitors from reaching the login screen, NOT real security. Anyone
-       who reads this page's source can see how it works. The actual
-       access control for saving content is Netlify Identity + Git
-       Gateway below, which only lets invited, logged-in users write to
-       the repo. Change the password by editing GATE_PASSWORD. -->
+  <!-- Front gate: a shared-password check before the real login even loads.
+       Light deterrent only, not real security -- see SETUP.md. -->
   <div id="gate">
-    <h1>Blue 42's Brewing Barn</h1>
-    <p>Enter the site password to continue to the content manager.</p>
-    <form id="gate-form" autocomplete="off">
-      <input type="password" id="gate-password" placeholder="Password" autofocus />
-      <button type="submit">Enter</button>
-      <div id="gate-error"></div>
-    </form>
+    <div class="box">
+      <h1>Blue 42's Brewing Barn</h1>
+      <p>Enter the site password to continue to the content manager.</p>
+      <form id="gate-form" autocomplete="off">
+        <input type="password" id="gate-password" placeholder="Password" autofocus />
+        <button type="submit">Enter</button>
+        <div id="gate-error"></div>
+      </form>
+    </div>
   </div>
 
-  <div id="cms-root"></div>
+  <!-- Branded login screen shown once the gate is passed, before the admin
+       is signed in with their invited Netlify Identity account. -->
+  <div id="loginScreen">
+    <img src="/images/brand/logo.png" alt="Blue 42's Brewing Barn" />
+    <button id="loginBtn">Log in to edit the site</button>
+    <div class="hint">Only people invited by email can sign in here.</div>
+  </div>
+
+  <!-- The real content manager, shown once signed in. -->
+  <div id="app">
+    <div class="sidebar">
+      <div class="brand">
+        <span class="dot"><img src="/images/brand/logo.png" alt="" /></span>
+        <span>Blue 42's Admin</span>
+      </div>
+      <nav>
+        <a data-view="events" class="active">Events</a>
+        <a data-view="menu">Menu</a>
+      </nav>
+    </div>
+    <div class="main">
+      <div class="topbar">
+        <div class="status" id="status"></div>
+        <div class="userbox">
+          <span class="avatar" id="avatar">?</span>
+          <span id="userEmail"></span>
+          <button class="btn btn-outline" id="logoutBtn">Log out</button>
+        </div>
+      </div>
+      <div class="content" id="content">
+        <div class="loading">Loading…</div>
+      </div>
+    </div>
+  </div>
 
   <script>
     var GATE_PASSWORD = 'BackDoor42!';
     var SESSION_KEY = 'blue42_admin_gate_ok';
+    var REPO_OWNER = 'JagOBX';
+    var REPO_NAME = 'Blue42sBrewingBarn';
+    var BRANCH = 'main';
 
-    function loadCMS() {
+    /* ---------------- Gate ---------------- */
+    function loadIdentity() {
       document.getElementById('gate').style.display = 'none';
-      document.getElementById('cms-root').style.display = 'block';
 
       var identityScript = document.createElement('script');
       identityScript.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
-      identityScript.onload = function () {
-        if (window.netlifyIdentity) {
-          window.netlifyIdentity.on('init', function (user) {
-            if (!user) {
-              window.netlifyIdentity.on('login', function () {
-                document.location.href = '/admin/';
-              });
-            }
-          });
-        }
-        var cmsScript = document.createElement('script');
-        cmsScript.src = 'https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js';
-        document.body.appendChild(cmsScript);
-      };
+      identityScript.onload = initIdentity;
       document.body.appendChild(identityScript);
     }
 
-    // Skip the prompt for the rest of this browser tab's session once the
-    // correct password has been entered once.
     if (sessionStorage.getItem(SESSION_KEY) === 'yes') {
-      loadCMS();
+      loadIdentity();
     }
 
     document.getElementById('gate-form').addEventListener('submit', function (e) {
@@ -124,13 +160,346 @@
       var entered = document.getElementById('gate-password').value;
       if (entered === GATE_PASSWORD) {
         sessionStorage.setItem(SESSION_KEY, 'yes');
-        loadCMS();
+        loadIdentity();
       } else {
         document.getElementById('gate-error').textContent = 'Incorrect password.';
         document.getElementById('gate-password').value = '';
         document.getElementById('gate-password').focus();
       }
     });
+
+    /* ---------------- Netlify Identity ---------------- */
+    function initIdentity() {
+      var widget = window.netlifyIdentity;
+      if (!widget) { return; }
+
+      widget.on('init', function (user) {
+        if (user) { showApp(user); } else { showLogin(); }
+      });
+      widget.on('login', function (user) {
+        widget.close();
+        showApp(user);
+      });
+      widget.on('logout', function () {
+        showLogin();
+      });
+
+      document.getElementById('loginBtn').addEventListener('click', function () {
+        widget.open('login');
+      });
+      document.getElementById('logoutBtn').addEventListener('click', function () {
+        widget.logout();
+      });
+
+      widget.init();
+    }
+
+    function showLogin() {
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+    }
+
+    function showApp(user) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      var email = (user && user.email) || '';
+      document.getElementById('userEmail').textContent = email;
+      document.getElementById('avatar').textContent = email ? email[0].toUpperCase() : '?';
+      wireNav();
+      switchView('events');
+    }
+
+    /* ---------------- Nav ---------------- */
+    function wireNav() {
+      var links = document.querySelectorAll('.sidebar nav a');
+      links.forEach(function (a) {
+        a.onclick = function () { switchView(a.getAttribute('data-view')); };
+      });
+    }
+
+    function switchView(view) {
+      document.querySelectorAll('.sidebar nav a').forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('data-view') === view);
+      });
+      if (view === 'events') { loadEvents(); } else { loadMenu(); }
+    }
+
+    /* ---------------- Git Gateway helpers ---------------- */
+    function getToken() {
+      var user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
+      if (!user) { return Promise.reject(new Error('You have been signed out. Refresh and log in again.')); }
+      return user.jwt();
+    }
+
+    function b64EncodeUnicode(str) {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
+    function b64DecodeUnicode(str) {
+      return decodeURIComponent(escape(atob(str.replace(/\n/g, ''))));
+    }
+
+    function ghGet(path) {
+      return getToken().then(function (token) {
+        return fetch('/.netlify/git/github/contents/' + path + '?ref=' + BRANCH, {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+      }).then(function (res) {
+        if (!res.ok) { throw new Error('Could not load ' + path + ' (status ' + res.status + ')'); }
+        return res.json();
+      }).then(function (json) {
+        return { data: JSON.parse(b64DecodeUnicode(json.content)), sha: json.sha };
+      });
+    }
+
+    function ghPut(path, dataObj, sha, message) {
+      return getToken().then(function (token) {
+        var content = b64EncodeUnicode(JSON.stringify(dataObj, null, 2) + '\n');
+        return fetch('/.netlify/git/github/contents/' + path, {
+          method: 'PUT',
+          headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: message, content: content, sha: sha, branch: BRANCH })
+        });
+      }).then(function (res) {
+        if (!res.ok) {
+          return res.text().then(function (t) { throw new Error('Save failed (status ' + res.status + '). ' + t); });
+        }
+        return res.json();
+      });
+    }
+
+    /* ---------------- Status banner ---------------- */
+    function setStatus(text, kind) {
+      var el = document.getElementById('status');
+      el.textContent = text || '';
+      el.className = 'status' + (kind ? ' ' + kind : '');
+    }
+
+    /* ---------------- DOM helper ---------------- */
+    function el(tag, attrs) {
+      var e = document.createElement(tag);
+      attrs = attrs || {};
+      Object.keys(attrs).forEach(function (k) {
+        var v = attrs[k];
+        if (k === 'class') { e.className = v; }
+        else if (k === 'text') { e.textContent = v; }
+        else if (k.indexOf('on') === 0 && typeof v === 'function') { e.addEventListener(k.slice(2), v); }
+        else { e.setAttribute(k, v); }
+      });
+      for (var i = 2; i < arguments.length; i++) {
+        var c = arguments[i];
+        if (c == null) continue;
+        if (Array.isArray(c)) { c.forEach(function (cc) { if (cc != null) e.appendChild(cc); }); }
+        else if (typeof c === 'string') { e.appendChild(document.createTextNode(c)); }
+        else { e.appendChild(c); }
+      }
+      return e;
+    }
+
+    function field(labelText, hintText, inputEl) {
+      var children = [el('label', { text: labelText })];
+      if (hintText) { children.push(el('div', { class: 'hint', text: hintText })); }
+      children.push(inputEl);
+      return el.apply(null, ['div', { class: 'field' }].concat(children));
+    }
+
+    function textInput(value, onInput) {
+      var i = el('input', { type: 'text' });
+      i.value = value || '';
+      i.addEventListener('input', function (e) { onInput(e.target.value); });
+      return i;
+    }
+
+    function textArea(value, onInput, rows) {
+      var t = el('textarea', { rows: String(rows || 3) });
+      t.value = value || '';
+      t.addEventListener('input', function (e) { onInput(e.target.value); });
+      return t;
+    }
+
+    function iconBtn(label, title, onClick, danger) {
+      return el('button', { class: 'icon-btn' + (danger ? ' danger' : ''), text: label, title: title, type: 'button', onclick: onClick });
+    }
+
+    function moveItem(arr, idx, dir) {
+      var j = idx + dir;
+      if (j < 0 || j >= arr.length) return;
+      var tmp = arr[idx]; arr[idx] = arr[j]; arr[j] = tmp;
+    }
+
+    /* ---------------- Events view ---------------- */
+    var eventsStore = null; // {data, sha}
+
+    function loadEvents() {
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+      content.appendChild(el('div', { class: 'loading', text: 'Loading events…' }));
+      setStatus('');
+      if (eventsStore) { renderEvents(); return; }
+      ghGet('data/events.json').then(function (result) {
+        eventsStore = result;
+        renderEvents();
+      }).catch(function (err) {
+        content.innerHTML = '';
+        content.appendChild(el('div', { class: 'loading', text: err.message }));
+      });
+    }
+
+    function renderEvents() {
+      var data = eventsStore.data;
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+      content.appendChild(el('div', { class: 'panel-title', text: 'Events Page' }));
+
+      var introCard = el('div', { class: 'card' },
+        field('Intro text (under the "Events" heading)', null,
+          textArea(data.sectionIntro, function (v) { data.sectionIntro = v; }))
+      );
+      content.appendChild(introCard);
+
+      var featuredCard = el('div', { class: 'card' },
+        el('h3', { text: 'Featured Event' }),
+        field('Tag', 'e.g. "Featured · Sat, Oct 17"', textInput(data.featured.tag, function (v) { data.featured.tag = v; })),
+        field('Title', null, textInput(data.featured.title, function (v) { data.featured.title = v; })),
+        field('Description', null, textArea(data.featured.body, function (v) { data.featured.body = v; }))
+      );
+      content.appendChild(featuredCard);
+
+      var listWrap = el('div', { class: 'card' }, el('h3', { text: 'Other Events' }));
+      var list = el('div', { class: 'list' });
+      data.events.forEach(function (ev, idx) {
+        list.appendChild(eventCard(ev, idx, data.events));
+      });
+      listWrap.appendChild(list);
+      listWrap.appendChild(el('button', {
+        class: 'btn-add', type: 'button', text: '+ Add event',
+        onclick: function () { data.events.push({ tag: '', title: '', body: '' }); renderEvents(); }
+      }));
+      content.appendChild(listWrap);
+
+      content.appendChild(saveBar('data/events.json', function () { return eventsStore; }, 'Update events content via admin panel'));
+    }
+
+    function eventCard(ev, idx, arr) {
+      var titleSpan = el('span', { text: ev.title || '(untitled event)' });
+      var head = el('div', { class: 'list-item-head' },
+        titleSpan,
+        el('span', { class: 'controls' },
+          iconBtn('↑', 'Move up', function () { moveItem(arr, idx, -1); renderEvents(); }),
+          iconBtn('↓', 'Move down', function () { moveItem(arr, idx, 1); renderEvents(); }),
+          iconBtn('✕', 'Remove', function () { arr.splice(idx, 1); renderEvents(); }, true)
+        )
+      );
+      var body = el('div', { class: 'list-item-body' },
+        field('Tag', 'e.g. "Weekly · Saturdays"', textInput(ev.tag, function (v) { ev.tag = v; })),
+        field('Title', null, textInput(ev.title, function (v) { ev.title = v; titleSpan.textContent = v || '(untitled event)'; })),
+        field('Description', null, textArea(ev.body, function (v) { ev.body = v; }))
+      );
+      return el('div', { class: 'list-item' }, head, body);
+    }
+
+    /* ---------------- Menu view ---------------- */
+    var menuStore = null; // {data, sha}
+
+    function loadMenu() {
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+      content.appendChild(el('div', { class: 'loading', text: 'Loading menu…' }));
+      setStatus('');
+      if (menuStore) { renderMenu(); return; }
+      ghGet('data/menu.json').then(function (result) {
+        menuStore = result;
+        renderMenu();
+      }).catch(function (err) {
+        content.innerHTML = '';
+        content.appendChild(el('div', { class: 'loading', text: err.message }));
+      });
+    }
+
+    function renderMenu() {
+      var data = menuStore.data;
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+      content.appendChild(el('div', { class: 'panel-title', text: 'Menu Page' }));
+
+      var wrap = el('div', {});
+      data.tabs.forEach(function (tab, idx) {
+        wrap.appendChild(tabBlock(tab, idx, data.tabs));
+      });
+      content.appendChild(wrap);
+
+      content.appendChild(el('button', {
+        class: 'btn-add', type: 'button', text: '+ Add menu tab',
+        onclick: function () { data.tabs.push({ id: '', label: '', note: '', items: [] }); renderMenu(); }
+      }));
+
+      content.appendChild(saveBar('data/menu.json', function () { return menuStore; }, 'Update menu content via admin panel'));
+    }
+
+    function tabBlock(tab, idx, arr) {
+      var labelSpan = el('span', { text: tab.label || '(untitled tab)' });
+      var headControls = el('span', { class: 'controls' },
+        iconBtn('↑', 'Move up', function () { moveItem(arr, idx, -1); renderMenu(); }),
+        iconBtn('↓', 'Move down', function () { moveItem(arr, idx, 1); renderMenu(); }),
+        iconBtn('✕', 'Remove tab', function () { arr.splice(idx, 1); renderMenu(); }, true)
+      );
+      var head = el('div', { class: 'tab-block-head' }, labelSpan, headControls);
+
+      var body = el('div', { class: 'tab-block-body' },
+        field('Tab ID (short, no spaces, e.g. "coffee")', 'Used internally to link the tab to its items.', textInput(tab.id, function (v) { tab.id = v; })),
+        field('Tab Name (shown to customers, e.g. "Coffee & Frappés")', null, textInput(tab.label, function (v) { tab.label = v; labelSpan.textContent = v || '(untitled tab)'; })),
+        field('Note (small text under the items, e.g. hours or a tip)', null, textInput(tab.note, function (v) { tab.note = v; }))
+      );
+
+      body.appendChild(el('div', { class: 'items-label', text: 'Items' }));
+      var itemsList = el('div', { class: 'list' });
+      tab.items.forEach(function (item, itemIdx) {
+        itemsList.appendChild(menuItemCard(item, itemIdx, tab.items));
+      });
+      body.appendChild(itemsList);
+      body.appendChild(el('button', {
+        class: 'btn-add', type: 'button', text: '+ Add item',
+        onclick: function () { tab.items.push({ name: '', desc: '', price: '' }); renderMenu(); }
+      }));
+
+      return el('div', { class: 'tab-block' }, head, body);
+    }
+
+    function menuItemCard(item, idx, arr) {
+      var nameSpan = el('span', { text: item.name || '(untitled item)' });
+      var head = el('div', { class: 'list-item-head' },
+        nameSpan,
+        el('span', { class: 'controls' },
+          iconBtn('↑', 'Move up', function () { moveItem(arr, idx, -1); renderMenu(); }),
+          iconBtn('↓', 'Move down', function () { moveItem(arr, idx, 1); renderMenu(); }),
+          iconBtn('✕', 'Remove', function () { arr.splice(idx, 1); renderMenu(); }, true)
+        )
+      );
+      var body = el('div', { class: 'list-item-body' },
+        field('Name', null, textInput(item.name, function (v) { item.name = v; nameSpan.textContent = v || '(untitled item)'; })),
+        field('Description', null, textInput(item.desc, function (v) { item.desc = v; })),
+        field('Price', null, textInput(item.price, function (v) { item.price = v; }))
+      );
+      return el('div', { class: 'list-item' }, head, body);
+    }
+
+    /* ---------------- Save bar ---------------- */
+    function saveBar(path, getStore, message) {
+      var btn = el('button', { class: 'btn btn-primary', type: 'button', text: 'Save changes' });
+      btn.addEventListener('click', function () {
+        var store = getStore();
+        btn.disabled = true;
+        setStatus('Saving…');
+        ghPut(path, store.data, store.sha, message).then(function (result) {
+          store.sha = result.content.sha;
+          setStatus('Saved ✓ — your site will update in about a minute.', 'ok');
+          btn.disabled = false;
+        }).catch(function (err) {
+          setStatus(err.message, 'error');
+          btn.disabled = false;
+        });
+      });
+      return el('div', { class: 'save-bar' }, btn);
+    }
   </script>
 </body>
 </html>
