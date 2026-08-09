@@ -74,6 +74,23 @@
     .items-label{ font-weight:700; font-size:0.85rem; margin:14px 0 8px; color:var(--text); }
     .save-bar{ display:flex; align-items:center; gap:14px; padding:18px 0 40px; }
     .loading{ padding:40px; text-align:center; color:var(--muted); }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width:760px){
+      #gate .box{ max-width:88vw; padding:28px 20px; }
+      #app{ display:none; }
+      .sidebar{ position:static; width:100%; height:auto; padding:16px 0 0; }
+      .sidebar .brand{ padding:0 16px 14px; }
+      .sidebar nav{ flex-direction:row; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+      .sidebar nav a{ padding:12px 16px; border-right:none; border-bottom:3px solid transparent; white-space:nowrap; }
+      .sidebar nav a.active{ border-right:none; border-bottom:3px solid var(--gold-hi); }
+      .main{ margin-left:0; }
+      .topbar{ padding:12px 16px; flex-wrap:wrap; row-gap:8px; }
+      .content{ padding:16px; max-width:100%; }
+      .tab-block-head{ flex-wrap:wrap; row-gap:8px; }
+      .list-item-head{ flex-wrap:wrap; row-gap:8px; }
+      .save-bar{ padding:16px 0 32px; flex-wrap:wrap; }
+    }
   </style>
 </head>
 <body>
