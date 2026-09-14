@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1c34">
+<meta name="format-detection" content="telephone=yes">
 <title>Page Not Found | Blue 42's Brewing Barn</title>
 <meta name="description" content="The page you're looking for can't be found. Head back to Blue 42's Brewing Barn in Moyock, NC.">
 <link rel="canonical" href="https://www.blue42sbrewingbarn.com/404.html">
@@ -11,7 +13,7 @@
 <link rel="apple-touch-icon" href="images/brand/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#122c4e;
@@ -344,6 +346,22 @@
       visibility:visible;
       transform:translateY(0);
     }
+  }
+
+  /* ---------- PRINT ---------- */
+  /* The scroll-reveal styles leave off-screen sections at opacity:0, which
+     means a printed page (or a PDF export) came out with blank sections.
+     Force everything visible for print. */
+  @media print{
+    .reveal, .reveal-slide{
+      opacity:1 !important;
+      visibility:visible !important;
+      transform:none !important;
+    }
+    header, .nav-toggle, .cta-band, .hero-credit{ display:none !important; }
+    body{ background:#ffffff; color:#000000; }
+    .section{ padding:24px 0; }
+    a[href^="http"]::after{ content:" (" attr(href) ")"; font-size:0.75em; word-break:break-all; }
   }
 </style>
 </head>

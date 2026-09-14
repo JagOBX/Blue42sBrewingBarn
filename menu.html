@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1c34">
+<meta name="format-detection" content="telephone=yes">
 <title>Menu | Blue 42's Brewing Barn</title>
 <meta name="description" content="See the full menu at Blue 42's Brewing Barn: coffee, frappes, smoothies, craft beer, NC wine, homemade fudge and more in Moyock, NC.">
 <link rel="canonical" href="https://www.blue42sbrewingbarn.com/menu.html">
@@ -35,9 +37,12 @@
     "CafeOrCoffeeShop",
     "BarOrPub"
   ],
+  "@id": "https://www.blue42sbrewingbarn.com/#business",
   "name": "Blue 42's Brewing Barn",
   "image": "https://www.blue42sbrewingbarn.com/images/hero/hero-bg.jpg",
+  "logo": "https://www.blue42sbrewingbarn.com/images/brand/logo.png",
   "url": "https://www.blue42sbrewingbarn.com/",
+  "hasMenu": "https://www.blue42sbrewingbarn.com/menu.html",
   "telephone": "+1-252-232-0757",
   "email": "blue42sbrewingbarn@gmail.com",
   "priceRange": "$$",
@@ -55,6 +60,12 @@
     "postalCode": "27958",
     "addressCountry": "US"
   },
+  "publicAccess": true,
+  "isAccessibleForFree": true,
+  "areaServed": [
+    { "@type": "City", "name": "Moyock" },
+    { "@type": "AdministrativeArea", "name": "Currituck County" }
+  ],
   "sameAs": [
     "https://www.facebook.com/Blue42sBrewingBarn",
     "https://www.instagram.com/blue42sbrewingbarn/"
@@ -86,7 +97,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#122c4e;
@@ -848,6 +859,71 @@
   .btn-outline-dark:hover{
     box-shadow:0 12px 22px rgba(11,28,52,0.16);
   }
+
+  /* ---------- OPEN NOW STATUS ---------- */
+  /* Live open/closed chip. Rendered hidden and revealed by JS once the
+     current time has been checked in the Barn's own timezone, so it can
+     never show a stale or wrong status to someone in another timezone. */
+  .open-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 18px 9px 14px;
+    border-radius:999px;
+    font-size:0.86rem;
+    font-weight:600;
+    letter-spacing:0.01em;
+    background:rgba(255,255,255,0.10);
+    border:1px solid rgba(255,255,255,0.22);
+    color:#ffffff;
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+    line-height:1.35;
+  }
+  .open-chip .dot{
+    width:9px; height:9px;
+    border-radius:50%;
+    background:#8a8f97;
+    flex-shrink:0;
+  }
+  .open-chip.is-open .dot{ background:#5ed07a; box-shadow:0 0 0 4px rgba(94,208,122,0.22); }
+  .open-chip.is-closed .dot{ background:#e0705e; box-shadow:0 0 0 4px rgba(224,112,94,0.18); }
+  .open-chip .detail{ font-weight:400; opacity:0.82; }
+  .open-chip .detail::before{ content:"\00b7"; margin:0 7px; opacity:0.6; }
+  .open-chip.on-light{
+    background:var(--white);
+    border-color:rgba(18,44,78,0.14);
+    color:var(--navy-deep);
+    box-shadow:0 6px 18px rgba(11,28,52,0.07);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .open-chip.is-open .dot{ animation:pulseDot 2.8s ease-in-out infinite; }
+  }
+  @keyframes pulseDot{
+    0%,100%{ box-shadow:0 0 0 4px rgba(94,208,122,0.22); }
+    50%{ box-shadow:0 0 0 8px rgba(94,208,122,0.04); }
+  }
+  @media (max-width:420px){
+    .open-chip{ font-size:0.8rem; padding:8px 14px 8px 12px; }
+    .open-chip .detail{ display:block; }
+    .open-chip .detail::before{ display:none; }
+  }
+
+  /* ---------- PRINT ---------- */
+  /* The scroll-reveal styles leave off-screen sections at opacity:0, which
+     means a printed page (or a PDF export) came out with blank sections.
+     Force everything visible for print. */
+  @media print{
+    .reveal, .reveal-slide{
+      opacity:1 !important;
+      visibility:visible !important;
+      transform:none !important;
+    }
+    header, .nav-toggle, .cta-band, .hero-credit{ display:none !important; }
+    body{ background:#ffffff; color:#000000; }
+    .section{ padding:24px 0; }
+    a[href^="http"]::after{ content:" (" attr(href) ")"; font-size:0.75em; word-break:break-all; }
+  }
 </style>
 </head>
 <body>
@@ -1160,22 +1236,7 @@
     })
     .catch(() => { /* keep the fallback markup already in the page */ });
 </script>
-</script>
 
-<!-- Lets Netlify Identity finish invite/login links that land back on the
-     homepage (e.g. from a team invite email) and hand off to /admin. -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on('init', user => {
-      if (!user) {
-        window.netlifyIdentity.on('login', () => {
-          document.location.href = '/admin/';
-        });
-      }
-    });
-  }
-</script>
 <!-- Subtle scroll animations: fade-and-rise reveal for content sections,
      plus a calm parallax drift on the hero photo. Skips entirely for
      anyone with prefers-reduced-motion set. -->
