@@ -347,12 +347,15 @@
     z-index:2;
     padding-top:132px;
     padding-bottom:132px;
-    max-width:720px;
+    /* 820 not 720: at 4.4rem the first headline line measures 777px in
+       Fraunces, so a 720px column forced it to wrap to three lines. */
+    max-width:820px;
   }
   .hero h1{
     color:var(--white);
-    font-size:clamp(2.6rem, 5.4vw, 4.4rem);
+    font-size:clamp(1.25rem, calc(8vw - 4px), 4.4rem);
     margin:18px 0 22px;
+    text-wrap:pretty;
   }
   .hero h1 em{
     font-style:italic;
@@ -1101,7 +1104,7 @@
       <p class="eyebrow" style="color:#f0b95c;">Moyock, North Carolina · Est. 2023</p>
       <p class="open-chip" data-open-chip hidden><span class="dot"></span><span class="open-label"></span><span class="detail"></span></p>
     </div>
-    <h1>A coffee to start your day &amp; <em>a craft beer</em> to end it.</h1>
+    <h1>A coffee to start your day<br>&amp; <em>a craft beer</em> to end it.</h1>
     <p class="lead">Local craft beer, NC wine, espresso, frappés &amp; homemade fudge, poured with Currituck County roots. Morning coffee, evening pints, live music on the weekends.</p>
     <div class="hero-actions">
       <a href="menu.html" class="btn btn-primary">
