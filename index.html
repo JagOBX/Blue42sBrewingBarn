@@ -921,6 +921,16 @@
     .open-chip .detail::before{ display:none; }
   }
 
+  /* Both of these intro paragraphs broke mid-sentence. The break is set by
+     width rather than a <br>, because #eventsIntro's text is replaced at
+     runtime by the JS that reads data/events.json — a hard break would be
+     wiped the moment that fetch lands. Measured in Work Sans at 1.05rem:
+       "...on the lawn each year."  = 816px, +" Follow" = 875 -> cap 840
+       "...as Paxtin can manage,"   = 545px, +" from"   = 590 -> cap 565
+     Below those widths the container takes over and the text reflows. */
+  #happening #eventsIntro{ max-width:840px; }
+  #pour .section-head p:not(.eyebrow){ max-width:565px; }
+
   /* "Live music, karaoke & food trucks." is 16.6em wide in Fraunces, so at
      2.8rem it needs 731px but .section-head caps at 640 — it wrapped to two
      lines. Scoped to #happening so the shorter /peek heading is unaffected.
@@ -1184,7 +1194,7 @@
 </section>
 
 <!-- ================= WHAT WE OFFER ================= -->
-<section class="section section-alt">
+<section class="section section-alt" id="pour">
   <div class="container">
     <div class="section-head">
       <p class="eyebrow">What We Pour &amp; Serve</p>
