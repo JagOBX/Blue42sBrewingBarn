@@ -1,0 +1,52 @@
+{
+  "topics": [
+    {
+      "id": "exterior",
+      "title": "The Barn: Exterior",
+      "credit": "Amanda Kielar Photography",
+      "photos": [
+        { "src": "images/hero/hero-bg.jpg", "alt": "Exterior of the blue barn at Blue 42's Brewing Barn in Moyock, NC" }
+      ]
+    },
+    {
+      "id": "cheers",
+      "title": "Cheers at the Barn",
+      "credit": "Amanda Kielar Photography",
+      "photos": [
+        { "src": "images/gallery/gallery-cheers.jpg", "alt": "Friends toasting drinks together at Blue 42's Brewing Barn" }
+      ]
+    },
+    {
+      "id": "coffee",
+      "title": "Morning Coffee Bar",
+      "credit": "Stock photo",
+      "photos": [
+        { "src": "images/gallery/gallery-coffee.jpg", "alt": "Cup of coffee at the Blue 42's Brewing Barn coffee bar" }
+      ]
+    },
+    {
+      "id": "livemusic",
+      "title": "Live Music Weekends",
+      "credit": "",
+      "photos": [
+        { "src": "images/gallery/gallery-livemusic.jpg", "alt": "Live band performing on stage at Blue 42's Brewing Barn" }
+      ]
+    },
+    {
+      "id": "fudge",
+      "title": "Homemade Fudge",
+      "credit": "Stock photo",
+      "photos": [
+        { "src": "images/gallery/gallery-fudge.jpg", "alt": "Assorted homemade fudge at Blue 42's Brewing Barn" }
+      ]
+    },
+    {
+      "id": "lawn",
+      "title": "The Back Lawn",
+      "credit": "",
+      "photos": [
+        { "src": "images/gallery/gallery-lawn.jpg", "alt": "Live band playing for a crowd on the back lawn at Blue 42's Brewing Barn" }
+      ]
+    }
+  ]
+}
