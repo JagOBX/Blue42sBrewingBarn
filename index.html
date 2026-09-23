@@ -76,14 +76,21 @@
     {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": [
-        "Sunday",
+        "Sunday"
+      ],
+      "opens": "06:30",
+      "closes": "20:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
         "Monday",
         "Tuesday",
         "Wednesday",
         "Thursday"
       ],
-      "opens": "07:00",
-      "closes": "20:00"
+      "opens": "06:30",
+      "closes": "19:00"
     },
     {
       "@type": "OpeningHoursSpecification",
@@ -91,8 +98,8 @@
         "Friday",
         "Saturday"
       ],
-      "opens": "07:00",
-      "closes": "22:00"
+      "opens": "06:30",
+      "closes": "21:00"
     }
   ]
 }
@@ -1147,7 +1154,7 @@
       </div>
       <div class="hero-badge">
         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#f0b95c" stroke-width="1.6"/><path d="M12 7v5l3 3" stroke="#f0b95c" stroke-width="1.6" stroke-linecap="round"/></svg>
-        Open daily from 7am
+        Open daily from 6:30am
       </div>
       <div class="hero-badge">
         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><path d="M9 18V6l10-2v12" stroke="#f0b95c" stroke-width="1.6"/><circle cx="6" cy="18" r="3" stroke="#f0b95c" stroke-width="1.6"/><circle cx="16" cy="16" r="3" stroke="#f0b95c" stroke-width="1.6"/></svg>
@@ -1542,13 +1549,13 @@
   var HOURS = {
     tz: 'America/New_York',
     days: [
-      { open: 420, close: 1200 }, // Sun  7:00 AM - 8:00 PM
-      { open: 420, close: 1200 }, // Mon
-      { open: 420, close: 1200 }, // Tue
-      { open: 420, close: 1200 }, // Wed
-      { open: 420, close: 1200 }, // Thu
-      { open: 420, close: 1320 }, // Fri  7:00 AM - 10:00 PM
-      { open: 420, close: 1320 }  // Sat
+      { open: 390, close: 1200 }, // Sun  6:30 AM - 8:00 PM (unchanged, pending confirmation)
+      { open: 390, close: 1140 }, // Mon  6:30 AM - 7:00 PM
+      { open: 390, close: 1140 }, // Tue
+      { open: 390, close: 1140 }, // Wed
+      { open: 390, close: 1140 }, // Thu
+      { open: 390, close: 1260 }, // Fri  6:30 AM - 9:00 PM
+      { open: 390, close: 1260 }  // Sat
     ],
     cafeClose: 1080, // 6:00 PM
     barOpen: 660     // 11:00 AM
