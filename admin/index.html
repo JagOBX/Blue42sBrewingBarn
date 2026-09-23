@@ -122,6 +122,7 @@
       <nav>
         <a data-view="events" class="active">Events</a>
         <a data-view="menu">Menu</a>
+        <a data-view="gallery">Gallery</a>
       </nav>
     </div>
     <div class="main">
@@ -164,7 +165,7 @@
 
     document.getElementById('logoutBtn').addEventListener('click', function () {
       sessionStorage.removeItem(SESSION_KEY);
-      eventsStore = null; menuStore = null;
+      eventsStore = null; menuStore = null; galleryStore = null;
       document.getElementById('gate-password').value = '';
       document.getElementById('app').style.display = 'none';
       document.getElementById('gate').style.display = 'flex';
@@ -194,7 +195,9 @@
       document.querySelectorAll('.sidebar nav a').forEach(function (a) {
         a.classList.toggle('active', a.getAttribute('data-view') === view);
       });
-      if (view === 'events') { loadEvents(); } else { loadMenu(); }
+      if (view === 'events') { loadEvents(); }
+      else if (view === 'gallery') { loadGallery(); }
+      else { loadMenu(); }
     }
 
     /* ---------------- Backend helpers ---------------- */
@@ -238,6 +241,14 @@
     function ghPut(path, dataObj, sha, message) {
       var content = b64EncodeUnicode(JSON.stringify(dataObj, null, 2) + '\n');
       return apiFetch(path, 'PUT', { path: path, content: content, sha: sha, message: message });
+    }
+
+    // Uploads a new photo. base64Content is already base64 (straight off
+    // a FileReader data URL, prefix stripped) -- unlike ghPut, this never
+    // wraps it as JSON text, and never sends a sha: every upload creates
+    // a brand new file under images/gallery/, it never overwrites one.
+    function ghUploadImage(path, base64Content, message) {
+      return apiFetch(path, 'PUT', { path: path, content: base64Content, message: message });
     }
 
     /* ---------------- Status banner ---------------- */
@@ -453,6 +464,148 @@
         field('Price', null, textInput(item.price, function (v) { item.price = v; }))
       );
       return el('div', { class: 'list-item' }, head, body);
+    }
+
+    /* ---------------- Gallery view ---------------- */
+    var galleryStore = null; // {data, sha}
+    var MAX_PHOTO_BYTES = 4 * 1024 * 1024;
+    var PHOTO_TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif' };
+
+    function loadGallery() {
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+      content.appendChild(el('div', { class: 'loading', text: 'Loading gallery…' }));
+      setStatus('');
+      if (galleryStore) { renderGallery(); return; }
+      ghGet('data/gallery.json').then(function (result) {
+        galleryStore = result;
+        renderGallery();
+      }).catch(function (err) {
+        content.innerHTML = '';
+        content.appendChild(el('div', { class: 'loading', text: err.message }));
+      });
+    }
+
+    function renderGallery() {
+      var data = galleryStore.data;
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+      content.appendChild(el('div', { class: 'panel-title', text: 'Gallery Page' }));
+      content.appendChild(el('div', {
+        class: 'hint', style: 'margin-bottom:16px;',
+        text: 'Each album below is one tile on the Gallery page. Add a few photos to an album and visitors can click through all of them. Removing a photo here only takes it off the site -- it does not delete the uploaded file.'
+      }));
+
+      var wrap = el('div', {});
+      data.topics.forEach(function (topic, idx) {
+        wrap.appendChild(topicBlock(topic, idx, data.topics));
+      });
+      content.appendChild(wrap);
+
+      content.appendChild(el('button', {
+        class: 'btn-add', type: 'button', text: '+ Add album',
+        onclick: function () { data.topics.push({ id: '', title: '', credit: '', photos: [] }); renderGallery(); }
+      }));
+
+      content.appendChild(saveBar('data/gallery.json', function () { return galleryStore; }, 'Update gallery content via admin panel'));
+    }
+
+    function topicBlock(topic, idx, arr) {
+      var titleSpan = el('span', { text: topic.title || '(untitled album)' });
+      var headControls = el('span', { class: 'controls' },
+        iconBtn('↑', 'Move up', function () { moveItem(arr, idx, -1); renderGallery(); }),
+        iconBtn('↓', 'Move down', function () { moveItem(arr, idx, 1); renderGallery(); }),
+        iconBtn('✕', 'Remove album', function () { arr.splice(idx, 1); renderGallery(); }, true)
+      );
+      var head = el('div', { class: 'tab-block-head' }, titleSpan, headControls);
+
+      var body = el('div', { class: 'tab-block-body' },
+        field('Album Title (shown on the tile and as the photo caption)', null,
+          textInput(topic.title, function (v) { topic.title = v; titleSpan.textContent = v || '(untitled album)'; })),
+        field('Photo Credit (optional, shown under the album title)', null,
+          textInput(topic.credit, function (v) { topic.credit = v; }))
+      );
+
+      body.appendChild(el('div', { class: 'items-label', text: 'Photos (the first one is the tile\'s cover photo -- reorder to change it)' }));
+      var photosList = el('div', { class: 'list' });
+      topic.photos = topic.photos || [];
+      topic.photos.forEach(function (photo, photoIdx) {
+        photosList.appendChild(photoCard(photo, photoIdx, topic.photos));
+      });
+      body.appendChild(photosList);
+
+      var uploadStatus = el('div', { class: 'hint' });
+      body.appendChild(uploadStatus);
+
+      var fileInput = el('input', { type: 'file', accept: 'image/jpeg,image/png,image/webp,image/gif', multiple: 'multiple' });
+      fileInput.style.display = 'none';
+      var addBtn = el('button', {
+        class: 'btn-add', type: 'button', text: '+ Add photos',
+        onclick: function () { fileInput.click(); }
+      });
+      fileInput.addEventListener('change', function () {
+        var files = Array.prototype.slice.call(fileInput.files || []);
+        fileInput.value = '';
+        if (files.length) { uploadPhotos(files, topic, uploadStatus, addBtn); }
+      });
+      body.appendChild(addBtn);
+      body.appendChild(fileInput);
+
+      return el('div', { class: 'tab-block' }, head, body);
+    }
+
+    function photoCard(photo, idx, arr) {
+      var thumb = el('img', { src: '/' + photo.src, alt: 'Preview' });
+      thumb.style.cssText = 'width:100%; max-width:220px; border-radius:6px; display:block; margin-bottom:10px; border:1px solid var(--border2);';
+      var head = el('div', { class: 'list-item-head' },
+        el('span', { text: photo.src.split('/').pop() }),
+        el('span', { class: 'controls' },
+          iconBtn('↑', 'Move up', function () { moveItem(arr, idx, -1); renderGallery(); }),
+          iconBtn('↓', 'Move down', function () { moveItem(arr, idx, 1); renderGallery(); }),
+          iconBtn('✕', 'Remove from album', function () { arr.splice(idx, 1); renderGallery(); }, true)
+        )
+      );
+      var body = el('div', { class: 'list-item-body' },
+        thumb,
+        field('Alt text (describes the photo for screen readers and search engines)', null,
+          textInput(photo.alt, function (v) { photo.alt = v; }))
+      );
+      return el('div', { class: 'list-item' }, head, body);
+    }
+
+    function uploadPhotos(files, topic, uploadStatus, addBtn) {
+      addBtn.disabled = true;
+      var failed = [];
+      function next(i) {
+        if (i >= files.length) {
+          addBtn.disabled = false;
+          uploadStatus.textContent = failed.length ? ('Some photos did not upload: ' + failed.join(', ')) : '';
+          renderGallery();
+          return;
+        }
+        var file = files[i];
+        uploadStatus.textContent = 'Uploading ' + (i + 1) + ' of ' + files.length + '…';
+        var ext = PHOTO_TYPES[file.type];
+        if (!ext) { failed.push(file.name + ' (not a supported image type)'); next(i + 1); return; }
+        if (file.size > MAX_PHOTO_BYTES) { failed.push(file.name + ' (over 4MB)'); next(i + 1); return; }
+
+        var reader = new FileReader();
+        reader.onload = function () {
+          var base64 = String(reader.result).split(',')[1] || '';
+          var name = 'img-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+          var path = 'images/gallery/' + name;
+          ghUploadImage(path, base64, 'Upload gallery photo via admin panel').then(function () {
+            topic.photos.push({ src: path, alt: '' });
+            next(i + 1);
+          }).catch(function (err) {
+            failed.push(file.name + ' (' + err.message + ')');
+            next(i + 1);
+          });
+        };
+        reader.onerror = function () { failed.push(file.name + ' (could not read file)'); next(i + 1); };
+        reader.readAsDataURL(file);
+      }
+      next(0);
     }
 
     /* ---------------- Save bar ---------------- */
