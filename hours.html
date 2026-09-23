@@ -74,14 +74,21 @@
     {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": [
-        "Sunday",
+        "Sunday"
+      ],
+      "opens": "06:30",
+      "closes": "20:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
         "Monday",
         "Tuesday",
         "Wednesday",
         "Thursday"
       ],
-      "opens": "07:00",
-      "closes": "20:00"
+      "opens": "06:30",
+      "closes": "19:00"
     },
     {
       "@type": "OpeningHoursSpecification",
@@ -89,8 +96,8 @@
         "Friday",
         "Saturday"
       ],
-      "opens": "07:00",
-      "closes": "22:00"
+      "opens": "06:30",
+      "closes": "21:00"
     }
   ]
 }
@@ -1065,10 +1072,11 @@
         </div>
         <div class="hours-card">
           <div class="hours-cat">Coffee &amp; Café</div>
-          <div class="hours-row"><span class="d">Every day</span><span class="t">7:00 AM to 6:00 PM</span></div>
+          <div class="hours-row"><span class="d">Every day</span><span class="t">6:30 AM to 6:00 PM</span></div>
           <div class="hours-cat">Beer &amp; Wine</div>
-          <div class="hours-row" data-days="0,1,2,3,4"><span class="d">Sunday to Thursday</span><span class="t">11:00 AM to 8:00 PM</span></div>
-          <div class="hours-row" data-days="5,6"><span class="d">Friday to Saturday</span><span class="t">11:00 AM to 10:00 PM</span></div>
+          <div class="hours-row" data-days="0"><span class="d">Sunday</span><span class="t">11:00 AM to 8:00 PM</span></div>
+          <div class="hours-row" data-days="1,2,3,4"><span class="d">Monday to Thursday</span><span class="t">11:00 AM to 7:00 PM</span></div>
+          <div class="hours-row" data-days="5,6"><span class="d">Friday to Saturday</span><span class="t">11:00 AM to 9:00 PM</span></div>
         </div>
         <div class="contact-line">
           <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
@@ -1333,13 +1341,13 @@
   var HOURS = {
     tz: 'America/New_York',
     days: [
-      { open: 420, close: 1200 }, // Sun  7:00 AM - 8:00 PM
-      { open: 420, close: 1200 }, // Mon
-      { open: 420, close: 1200 }, // Tue
-      { open: 420, close: 1200 }, // Wed
-      { open: 420, close: 1200 }, // Thu
-      { open: 420, close: 1320 }, // Fri  7:00 AM - 10:00 PM
-      { open: 420, close: 1320 }  // Sat
+      { open: 390, close: 1200 }, // Sun  6:30 AM - 8:00 PM (unchanged, pending confirmation)
+      { open: 390, close: 1140 }, // Mon  6:30 AM - 7:00 PM
+      { open: 390, close: 1140 }, // Tue
+      { open: 390, close: 1140 }, // Wed
+      { open: 390, close: 1140 }, // Thu
+      { open: 390, close: 1260 }, // Fri  6:30 AM - 9:00 PM
+      { open: 390, close: 1260 }  // Sat
     ],
     cafeClose: 1080, // 6:00 PM
     barOpen: 660     // 11:00 AM
