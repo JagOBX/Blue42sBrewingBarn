@@ -40,7 +40,7 @@
       "label": "Food & Sweets",
       "note": "🥪 Food truck schedule and daily specials are posted on our Facebook page.",
       "items": [
-        { "name": "Belcross Biscuit Co. Biscuits", "desc": "Grab and go, made locally", "price": "Ask" },
+        { "name": "Cindy's Kitchen Biscuits", "desc": "Grab and go, made locally", "price": "Ask" },
         { "name": "Sandwiches", "desc": "Rotating grab and go selection", "price": "Ask" },
         { "name": "Powell's Roadside Fudge", "desc": "Homemade, multiple flavors", "price": "By the slice" },
         { "name": "Rotating Food Trucks", "desc": "Check Facebook for who's parked out back", "price": "Varies" }
