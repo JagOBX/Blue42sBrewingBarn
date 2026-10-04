@@ -38,9 +38,11 @@
     },
     {
       "id": "fudge",
-      "title": "Homemade Fudge",
-      "credit": "Stock photo",
+      "title": "Powell's Homemade Fudge",
+      "credit": "Stock photo (last photo)",
       "photos": [
+        { "src": "gallery-fudge-case.jpg", "alt": "The Fudge counter at Blue 42's Brewing Barn with Powell's Homemade Fudge sign and glass display case" },
+        { "src": "gallery-fudge-counter.jpg", "alt": "Display case full of Powell's homemade fudge in dozens of flavors, with handwritten flavor labels and dipped treats on top" },
         { "src": "images/gallery/gallery-fudge.jpg", "alt": "Assorted homemade fudge at Blue 42's Brewing Barn" }
       ]
     },
