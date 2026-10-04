@@ -2,17 +2,10 @@
   "topics": [
     {
       "id": "exterior",
-      "title": "The Barn: Exterior",
+      "title": "The Barn",
       "credit": "Amanda Kielar Photography",
       "photos": [
-        { "src": "images/hero/hero-bg.jpg", "alt": "Exterior of the blue barn at Blue 42's Brewing Barn in Moyock, NC" }
-      ]
-    },
-    {
-      "id": "cheers",
-      "title": "Cheers at the Barn",
-      "credit": "Amanda Kielar Photography",
-      "photos": [
+        { "src": "images/hero/hero-bg.jpg", "alt": "Exterior of the blue barn at Blue 42's Brewing Barn in Moyock, NC" },
         { "src": "images/gallery/gallery-cheers.jpg", "alt": "Friends toasting drinks together at Blue 42's Brewing Barn" }
       ]
     },
