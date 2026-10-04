@@ -18,9 +18,13 @@
     },
     {
       "id": "coffee",
-      "title": "Morning Coffee Bar",
-      "credit": "Stock photo",
+      "title": "Coffee & Fall Flavors",
+      "credit": "Coffee bar photo: stock",
       "photos": [
+        { "src": "images/gallery/gallery-fall-lineup.jpg", "alt": "Four fall lattes at Blue 42's Brewing Barn: Apple Cider Chai, Fireside Mocha, Flapjack Latte and Peach Cobbler Latte" },
+        { "src": "images/gallery/gallery-caramel-apple-latte.jpg", "alt": "Iced Caramel Apple Latte topped with whipped cream and caramel drizzle at Blue 42's Brewing Barn" },
+        { "src": "images/gallery/gallery-honey-bun-latte.jpg", "alt": "Iced Honey Bun Latte at Blue 42's Brewing Barn" },
+        { "src": "images/gallery/gallery-pumpkin-mocha.jpg", "alt": "Iced Pumpkin Mocha topped with whipped cream and chocolate drizzle at Blue 42's Brewing Barn" },
         { "src": "images/gallery/gallery-coffee.jpg", "alt": "Cup of coffee at the Blue 42's Brewing Barn coffee bar" }
       ]
     },
