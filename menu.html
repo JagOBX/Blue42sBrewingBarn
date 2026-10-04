@@ -33,64 +33,206 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": [
-    "CafeOrCoffeeShop",
-    "BarOrPub"
-  ],
-  "@id": "https://www.blue42sbrewingbarn.com/#business",
-  "name": "Blue 42's Brewing Barn",
-  "image": "https://www.blue42sbrewingbarn.com/images/hero/hero-bg.jpg",
-  "logo": "https://www.blue42sbrewingbarn.com/images/brand/logo.png",
-  "url": "https://www.blue42sbrewingbarn.com/",
-  "hasMenu": "https://www.blue42sbrewingbarn.com/menu.html",
-  "telephone": "+1-252-232-0757",
-  "email": "blue42sbrewingbarn@gmail.com",
-  "priceRange": "$$",
-  "servesCuisine": [
-    "Coffee",
-    "Craft Beer",
-    "Wine",
-    "Fudge"
-  ],
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "2132 Caratoke Highway",
-    "addressLocality": "Moyock",
-    "addressRegion": "NC",
-    "postalCode": "27958",
-    "addressCountry": "US"
-  },
-  "publicAccess": true,
-  "isAccessibleForFree": true,
-  "areaServed": [
-    { "@type": "City", "name": "Moyock" },
-    { "@type": "AdministrativeArea", "name": "Currituck County" }
-  ],
-  "sameAs": [
-    "https://www.facebook.com/Blue42sBrewingBarn",
-    "https://www.instagram.com/blue42sbrewingbarn/"
-  ],
-  "openingHoursSpecification": [
+  "@graph": [
     {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday"
-      ],
-      "opens": "06:30",
-      "closes": "19:00"
+      "@type": "WebPage",
+      "@id": "https://www.blue42sbrewingbarn.com/menu.html#webpage",
+      "url": "https://www.blue42sbrewingbarn.com/menu.html",
+      "name": "Menu | Blue 42's Brewing Barn",
+      "isPartOf": {
+        "@id": "https://www.blue42sbrewingbarn.com/#website"
+      },
+      "about": {
+        "@id": "https://www.blue42sbrewingbarn.com/#business"
+      }
     },
     {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Friday",
-        "Saturday"
-      ],
-      "opens": "06:30",
-      "closes": "21:00"
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.blue42sbrewingbarn.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Menu",
+          "item": "https://www.blue42sbrewingbarn.com/menu.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Menu",
+  "@id": "https://www.blue42sbrewingbarn.com/menu.html#menu",
+  "name": "Blue 42's Brewing Barn Menu",
+  "url": "https://www.blue42sbrewingbarn.com/menu.html",
+  "inLanguage": "en-US",
+  "hasMenuSection": [
+    {
+      "@type": "MenuSection",
+      "name": "Coffee & Frappés",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Signature Latte",
+          "description": "House espresso, steamed milk, seasonal flavor",
+          "offers": {
+            "@type": "Offer",
+            "price": "5.50",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Cold Brew",
+          "description": "Slow steeped, served over ice",
+          "offers": {
+            "@type": "Offer",
+            "price": "4.75",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Cookies & Cream Frappé",
+          "description": "Blended espresso treat",
+          "offers": {
+            "@type": "Offer",
+            "price": "8.00",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Java Mocha Frappé",
+          "description": "Espresso, chocolate, whipped cream",
+          "offers": {
+            "@type": "Offer",
+            "price": "7.00",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Espresso Shot",
+          "description": "Single or double",
+          "offers": {
+            "@type": "Offer",
+            "price": "3.25",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Iced Refresher",
+          "description": "Fruit forward, caffeine free option",
+          "offers": {
+            "@type": "Offer",
+            "price": "5.25",
+            "priceCurrency": "USD"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "MenuSection",
+      "name": "Smoothies & Whirzles",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Strawberry Smoothie",
+          "description": "Real fruit, blended fresh",
+          "offers": {
+            "@type": "Offer",
+            "price": "6.25",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Mango Smoothie",
+          "description": "Real fruit, blended fresh",
+          "offers": {
+            "@type": "Offer",
+            "price": "6.25",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Mixed Berry Smoothie",
+          "description": "Real fruit, blended fresh",
+          "offers": {
+            "@type": "Offer",
+            "price": "6.25",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Vanilla Whirzle",
+          "description": "Soft serve treat, ask about the buy one get one special"
+        }
+      ]
+    },
+    {
+      "@type": "MenuSection",
+      "name": "Beer & Wine",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Seven Sounds Brewery Taps",
+          "description": "4 rotating drafts, Elizabeth City NC"
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Regional Craft Cans",
+          "description": "Beer Zombies, O'Connor, Nansemond Brewing & more"
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Sanctuary Vineyards Wine",
+          "description": "Local Outer Banks vineyard, glass or bottle"
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Outer Banks Winery",
+          "description": "Reds, whites & seasonal blends"
+        }
+      ]
+    },
+    {
+      "@type": "MenuSection",
+      "name": "Food & Sweets",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Cindy's Kitchen Biscuits",
+          "description": "Grab and go, made locally"
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Sandwiches",
+          "description": "Rotating grab and go selection"
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Powell's Roadside Fudge",
+          "description": "Homemade, multiple flavors"
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Rotating Food Trucks",
+          "description": "Check Facebook for who's parked out back"
+        }
+      ]
     }
   ]
 }
