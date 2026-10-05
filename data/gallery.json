@@ -1,48 +1,81 @@
 {
   "topics": [
     {
-      "id": "exterior",
-      "title": "The Barn",
-      "credit": "Amanda Kielar Photography",
-      "photos": [
-        { "src": "images/hero/hero-bg.jpg", "alt": "Exterior of the blue barn at Blue 42's Brewing Barn in Moyock, NC" },
-        { "src": "images/gallery/gallery-cheers.jpg", "alt": "Friends toasting drinks together at Blue 42's Brewing Barn" }
-      ]
-    },
-    {
       "id": "coffee",
-      "title": "Coffee & Fall Flavors",
+      "title": "Coffee",
       "credit": "",
       "photos": [
-        { "src": "images/gallery/gallery-fall-lineup.jpg", "alt": "Four fall lattes at Blue 42's Brewing Barn: Apple Cider Chai, Fireside Mocha, Flapjack Latte and Peach Cobbler Latte" },
-        { "src": "images/gallery/gallery-caramel-apple-latte.jpg", "alt": "Iced Caramel Apple Latte topped with whipped cream and caramel drizzle at Blue 42's Brewing Barn" },
-        { "src": "images/gallery/gallery-honey-bun-latte.jpg", "alt": "Iced Honey Bun Latte at Blue 42's Brewing Barn" },
-        { "src": "images/gallery/gallery-pumpkin-mocha.jpg", "alt": "Iced Pumpkin Mocha topped with whipped cream and chocolate drizzle at Blue 42's Brewing Barn" }
-      ]
-    },
-    {
-      "id": "livemusic",
-      "title": "Live Music Weekends",
-      "credit": "",
-      "photos": [
-        { "src": "images/gallery/gallery-livemusic.jpg", "alt": "Live band performing on stage at Blue 42's Brewing Barn" }
+        {
+          "src": "images/gallery/gallery-fall-lineup.jpg",
+          "alt": "Four fall lattes at Blue 42's Brewing Barn: Apple Cider Chai, Fireside Mocha, Flapjack Latte and Peach Cobbler Latte",
+          "caption": "Fall flavor lineup"
+        },
+        {
+          "src": "images/gallery/gallery-caramel-apple-latte.jpg",
+          "alt": "Iced Caramel Apple Latte topped with whipped cream and caramel drizzle at Blue 42's Brewing Barn",
+          "caption": "Caramel Apple Latte"
+        },
+        {
+          "src": "images/gallery/gallery-honey-bun-latte.jpg",
+          "alt": "Iced Honey Bun Latte at Blue 42's Brewing Barn",
+          "caption": "Honey Bun Latte"
+        },
+        {
+          "src": "images/gallery/gallery-pumpkin-mocha.jpg",
+          "alt": "Iced Pumpkin Mocha topped with whipped cream and chocolate drizzle at Blue 42's Brewing Barn",
+          "caption": "Pumpkin Mocha"
+        }
       ]
     },
     {
       "id": "fudge",
-      "title": "Powell's Homemade Fudge",
+      "title": "Fudge",
       "credit": "",
       "photos": [
-        { "src": "gallery-fudge-case.jpg", "alt": "The Fudge counter at Blue 42's Brewing Barn with Powell's Homemade Fudge sign and glass display case" },
-        { "src": "gallery-fudge-counter.jpg", "alt": "Display case full of Powell's homemade fudge in dozens of flavors, with handwritten flavor labels and dipped treats on top" }
+        {
+          "src": "gallery-fudge-case.jpg",
+          "alt": "The Fudge counter at Blue 42's Brewing Barn with Powell's Homemade Fudge sign and glass display case",
+          "caption": "The fudge counter"
+        },
+        {
+          "src": "gallery-fudge-counter.jpg",
+          "alt": "Display case full of Powell's homemade fudge in dozens of flavors, with handwritten flavor labels and dipped treats on top",
+          "caption": "Powell's homemade fudge"
+        }
       ]
     },
     {
-      "id": "lawn",
-      "title": "The Back Lawn",
+      "id": "exterior",
+      "title": "The Barn",
+      "credit": "Amanda Kielar Photography",
+      "photos": [
+        {
+          "src": "images/hero/hero-bg.jpg",
+          "alt": "Exterior of the blue barn at Blue 42's Brewing Barn in Moyock, NC",
+          "caption": "Night crowd outside the barn"
+        },
+        {
+          "src": "images/gallery/gallery-cheers.jpg",
+          "alt": "Friends toasting drinks together at Blue 42's Brewing Barn",
+          "caption": "Cheers at the Barn"
+        }
+      ]
+    },
+    {
+      "id": "livemusic",
+      "title": "Live Music",
       "credit": "",
       "photos": [
-        { "src": "images/gallery/gallery-lawn.jpg", "alt": "Live band playing for a crowd on the back lawn at Blue 42's Brewing Barn" }
+        {
+          "src": "images/gallery/gallery-livemusic.jpg",
+          "alt": "Live band performing on stage at Blue 42's Brewing Barn",
+          "caption": "Live music weekends"
+        },
+        {
+          "src": "images/gallery/gallery-lawn.jpg",
+          "alt": "Live band playing for a crowd on the back lawn at Blue 42's Brewing Barn",
+          "caption": "The back lawn"
+        }
       ]
     }
   ]
