@@ -1067,6 +1067,45 @@
   }
   /* 0.62rem rendered at 9.9px -- too small to read on a phone */
   .logo .word span{ font-size:0.68rem; }
+
+  /* ---------- GALLERY (masonry + filters + viewer) ---------- */
+  .gm-chips{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; background:var(--white); border-radius:999px; padding:8px; box-shadow:var(--shadow); width:fit-content; max-width:100%; margin:0 auto 28px;}
+  .gm-chip{border:0; background:transparent; font:600 0.9rem 'Work Sans',sans-serif; color:var(--navy); padding:9px 18px; border-radius:999px; cursor:pointer; transition:background .2s,color .2s;}
+  .gm-chip:hover{background:var(--cream-dark);}
+  .gm-chip.on{background:var(--navy); color:var(--white);}
+  .gm-chip small{opacity:.65; margin-left:6px; font-weight:500;}
+  .gm-grid{columns:3 280px; column-gap:16px;}
+  .gm-tile{break-inside:avoid; margin:0 0 16px; position:relative; border-radius:var(--radius); overflow:hidden; cursor:zoom-in; background:var(--navy); box-shadow:var(--shadow); border:0; padding:0; display:block; width:100%; font:inherit;}
+  .gm-tile picture,.gm-tile img{display:block; width:100%; height:auto;}
+  .gm-tile img{transition:transform .5s;}
+  .gm-tile:hover img{transform:scale(1.05);}
+  .gm-tile.gm-hide{display:none;}
+  .gm-cap{position:absolute; left:0; right:0; bottom:0; padding:34px 14px 12px; background:linear-gradient(transparent,rgba(11,28,52,.85)); color:#fff; text-align:left; opacity:0; transform:translateY(8px); transition:opacity .25s,transform .25s;}
+  .gm-tile:hover .gm-cap,.gm-tile:focus-visible .gm-cap{opacity:1; transform:none;}
+  .gm-cap b{display:block; font-family:'Fraunces',serif; font-size:1.05rem;}
+  .gm-cap small{display:block; font-size:.78rem; color:var(--gold-light);}
+  .gm-tag{position:absolute; top:10px; left:10px; z-index:2; background:rgba(11,28,52,.82); color:#fff; font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:4px 10px; border-radius:999px;}
+  @media (hover:none){.gm-cap{opacity:1; transform:none;}}
+  .gm-follow{margin-top:40px; background:var(--navy); color:var(--white); border-radius:var(--radius); padding:28px; text-align:center;}
+  .gm-follow h2{color:var(--white); font-size:1.5rem; margin:0;}
+  .gm-follow p{color:rgba(255,255,255,.8); margin:6px 0 16px;}
+  .gm-follow .btn{margin:4px;}
+  .gm-lb{position:fixed; inset:0; background:rgba(6,14,27,.95); z-index:200; display:none; flex-direction:column; align-items:center; justify-content:center; padding:16px;}
+  .gm-lb.open{display:flex;}
+  .gm-stage{position:relative; flex:1; min-height:0; width:100%; display:flex; align-items:center; justify-content:center;}
+  .gm-big{max-width:min(1100px,92vw); max-height:100%; object-fit:contain; border-radius:8px; user-select:none;}
+  .gm-meta{color:#fff; text-align:center; padding:10px 0 6px;}
+  .gm-meta b{font-family:'Fraunces',serif; font-size:1.2rem;}
+  .gm-meta div{font-size:.82rem; color:var(--gold-light); min-height:1.2em;}
+  .gm-nb{position:absolute; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; border:0; background:rgba(255,255,255,.14); color:#fff; font-size:1.5rem; cursor:pointer;}
+  .gm-nb:hover{background:rgba(255,255,255,.28);}
+  .gm-prev{left:6px;} .gm-next{right:6px;}
+  .gm-x{position:absolute; top:6px; right:8px; width:44px; height:44px; border-radius:50%; border:0; background:rgba(255,255,255,.14); color:#fff; font-size:1.4rem; cursor:pointer; z-index:2;}
+  .gm-count{position:absolute; top:16px; left:18px; color:#cdd9ea; font-size:.85rem; z-index:2;}
+  .gm-thumbs{display:flex; gap:8px; overflow-x:auto; max-width:100%; padding:6px 4px;}
+  .gm-thumbs button{border:2px solid transparent; padding:0; border-radius:8px; overflow:hidden; opacity:.55; cursor:pointer; flex:0 0 auto; background:none;}
+  .gm-thumbs button.on{border-color:var(--gold-light); opacity:1;}
+  .gm-thumbs img{display:block; height:56px; width:auto;}
 </style>
 </head>
 <body>
@@ -1112,95 +1151,87 @@
     <div class="section-head">
       <p class="eyebrow">Gallery</p>
       <h1>See the Barn for yourself.</h1>
+      <p>Fall lattes, homemade fudge, the barn at night and live music on the lawn. Tap any photo to see it big.</p>
     </div>
-    <div class="gallery-grid" id="galleryGrid">
-      <button type="button" class="gallery-tile gallery-photo" data-title="The Barn: Exterior" data-credit="Amanda Kielar Photography" data-photos="[{&quot;src&quot;:&quot;images/hero/hero-bg.jpg&quot;,&quot;alt&quot;:&quot;Exterior of the blue barn at Blue 42's Brewing Barn in Moyock, NC&quot;}]">
-        <picture>
-          <source srcset="images/hero/hero-bg.webp" type="image/webp">
-          <img src="images/hero/hero-bg.jpg" alt="Exterior of the blue barn at Blue 42's Brewing Barn in Moyock, NC" width="1600" height="1068" loading="lazy" decoding="async">
-        </picture>
-        <span>The Barn: Exterior</span><small style="font-size:0.7rem; font-weight:400; opacity:0.95; margin-top:2px; position:relative; z-index:2; text-shadow:0 1px 3px rgba(0,0,0,0.6);">Amanda Kielar Photography</small>
+    <div class="gm-chips" id="gmChips" role="group" aria-label="Filter photos by topic">
+      <button type="button" class="gm-chip on" data-k="all">All<small>10</small></button>
+      <button type="button" class="gm-chip" data-k="coffee">Coffee<small>4</small></button>
+      <button type="button" class="gm-chip" data-k="fudge">Fudge<small>2</small></button>
+      <button type="button" class="gm-chip" data-k="exterior">The Barn<small>2</small></button>
+      <button type="button" class="gm-chip" data-k="livemusic">Live Music<small>2</small></button>
+    </div>
+    <div class="gm-grid" id="gmGrid">
+      <button type="button" class="gm-tile" data-cat="coffee">
+        <span class="gm-tag">Coffee</span>
+        <picture><source srcset="images/gallery/gallery-fall-lineup.webp" type="image/webp"><img src="images/gallery/gallery-fall-lineup.jpg" alt="Four fall lattes at Blue 42's Brewing Barn: Apple Cider Chai, Fireside Mocha, Flapjack Latte and Peach Cobbler Latte" width="1000" height="600" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>Fall flavor lineup</b></span>
       </button>
-      <button type="button" class="gallery-tile gallery-photo" data-title="Cheers at the Barn" data-credit="Amanda Kielar Photography" data-photos="[{&quot;src&quot;:&quot;images/gallery/gallery-cheers.jpg&quot;,&quot;alt&quot;:&quot;Friends toasting drinks together at Blue 42's Brewing Barn&quot;}]">
-        <picture>
-          <source srcset="images/gallery/gallery-cheers.webp" type="image/webp">
-          <img src="images/gallery/gallery-cheers.jpg" alt="Friends toasting drinks together at Blue 42's Brewing Barn" width="900" height="900" loading="lazy" decoding="async">
-        </picture>
-        <span>Cheers at the Barn</span><small style="font-size:0.7rem; font-weight:400; opacity:0.95; margin-top:2px; position:relative; z-index:2; text-shadow:0 1px 3px rgba(0,0,0,0.6);">Amanda Kielar Photography</small>
+      <button type="button" class="gm-tile" data-cat="coffee">
+        <span class="gm-tag">Coffee</span>
+        <picture><source srcset="images/gallery/gallery-caramel-apple-latte.webp" type="image/webp"><img src="images/gallery/gallery-caramel-apple-latte.jpg" alt="Iced Caramel Apple Latte topped with whipped cream and caramel drizzle at Blue 42's Brewing Barn" width="750" height="1000" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>Caramel Apple Latte</b></span>
       </button>
-      <button type="button" class="gallery-tile gallery-photo" data-title="Morning Coffee Bar" data-credit="Stock photo" data-photos="[{&quot;src&quot;:&quot;images/gallery/gallery-coffee.jpg&quot;,&quot;alt&quot;:&quot;Cup of coffee at the Blue 42's Brewing Barn coffee bar&quot;}]">
-        <picture>
-          <source srcset="images/gallery/gallery-coffee.webp" type="image/webp">
-          <img src="images/gallery/gallery-coffee.jpg" alt="Cup of coffee at the Blue 42's Brewing Barn coffee bar" width="900" height="900" loading="lazy" decoding="async">
-        </picture>
-        <span>Morning Coffee Bar</span><small style="font-size:0.7rem; font-weight:400; opacity:0.85; margin-top:2px; position:relative; z-index:2; text-shadow:0 1px 3px rgba(0,0,0,0.6);">Stock photo</small>
+      <button type="button" class="gm-tile" data-cat="coffee">
+        <span class="gm-tag">Coffee</span>
+        <picture><source srcset="images/gallery/gallery-honey-bun-latte.webp" type="image/webp"><img src="images/gallery/gallery-honey-bun-latte.jpg" alt="Iced Honey Bun Latte at Blue 42's Brewing Barn" width="750" height="1000" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>Honey Bun Latte</b></span>
       </button>
-      <button type="button" class="gallery-tile gallery-photo" data-title="Live Music Weekends" data-credit="" data-photos="[{&quot;src&quot;:&quot;images/gallery/gallery-livemusic.jpg&quot;,&quot;alt&quot;:&quot;Live band performing on stage at Blue 42's Brewing Barn&quot;}]">
-        <picture>
-          <source srcset="images/gallery/gallery-livemusic.webp" type="image/webp">
-          <img src="images/gallery/gallery-livemusic.jpg" alt="Live band performing on stage at Blue 42's Brewing Barn" width="800" height="803" loading="lazy" decoding="async">
-        </picture>
-        <span>Live Music Weekends</span>
+      <button type="button" class="gm-tile" data-cat="coffee">
+        <span class="gm-tag">Coffee</span>
+        <picture><source srcset="images/gallery/gallery-pumpkin-mocha.webp" type="image/webp"><img src="images/gallery/gallery-pumpkin-mocha.jpg" alt="Iced Pumpkin Mocha topped with whipped cream and chocolate drizzle at Blue 42's Brewing Barn" width="750" height="1000" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>Pumpkin Mocha</b></span>
       </button>
-      <button type="button" class="gallery-tile gallery-photo" data-title="Homemade Fudge" data-credit="Stock photo" data-photos="[{&quot;src&quot;:&quot;images/gallery/gallery-fudge.jpg&quot;,&quot;alt&quot;:&quot;Assorted homemade fudge at Blue 42's Brewing Barn&quot;}]">
-        <picture>
-          <source srcset="images/gallery/gallery-fudge.webp" type="image/webp">
-          <img src="images/gallery/gallery-fudge.jpg" alt="Assorted homemade fudge at Blue 42's Brewing Barn" width="900" height="900" loading="lazy" decoding="async">
-        </picture>
-        <span>Homemade Fudge</span><small style="font-size:0.7rem; font-weight:400; opacity:0.85; margin-top:2px; position:relative; z-index:2; text-shadow:0 1px 3px rgba(0,0,0,0.6);">Stock photo</small>
+      <button type="button" class="gm-tile" data-cat="fudge">
+        <span class="gm-tag">Fudge</span>
+        <picture><source srcset="gallery-fudge-case.webp" type="image/webp"><img src="gallery-fudge-case.jpg" alt="The Fudge counter at Blue 42's Brewing Barn with Powell's Homemade Fudge sign and glass display case" width="900" height="1200" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>The fudge counter</b></span>
       </button>
-      <button type="button" class="gallery-tile gallery-photo" data-title="The Back Lawn" data-credit="" data-photos="[{&quot;src&quot;:&quot;images/gallery/gallery-lawn.jpg&quot;,&quot;alt&quot;:&quot;Live band playing for a crowd on the back lawn at Blue 42's Brewing Barn&quot;}]">
-        <picture>
-          <source srcset="images/gallery/gallery-lawn.webp" type="image/webp">
-          <img src="images/gallery/gallery-lawn.jpg" alt="Live band playing for a crowd on the back lawn at Blue 42's Brewing Barn" width="900" height="900" loading="lazy" decoding="async">
-        </picture>
-        <span>The Back Lawn</span>
+      <button type="button" class="gm-tile" data-cat="fudge">
+        <span class="gm-tag">Fudge</span>
+        <picture><source srcset="gallery-fudge-counter.webp" type="image/webp"><img src="gallery-fudge-counter.jpg" alt="Display case full of Powell's homemade fudge in dozens of flavors, with handwritten flavor labels and dipped treats on top" width="1200" height="900" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>Powell's homemade fudge</b></span>
       </button>
-      <button type="button" class="gallery-tile gallery-photo" data-title="Fall Flavor Lineup" data-credit="" data-photos="[{&quot;src&quot;:&quot;images/gallery/gallery-fall-lineup.jpg&quot;,&quot;alt&quot;:&quot;Four fall lattes at Blue 42's Brewing Barn: Apple Cider Chai, Fireside Mocha, Flapjack Latte and Peach Cobbler Latte&quot;}]">
-        <picture>
-          <source srcset="images/gallery/gallery-fall-lineup.webp" type="image/webp">
-          <img src="images/gallery/gallery-fall-lineup.jpg" alt="Four fall lattes at Blue 42's Brewing Barn: Apple Cider Chai, Fireside Mocha, Flapjack Latte and Peach Cobbler Latte" width="1000" height="600" loading="lazy" decoding="async">
-        </picture>
-        <span>Fall Flavor Lineup</span>
+      <button type="button" class="gm-tile" data-cat="exterior">
+        <span class="gm-tag">The Barn</span>
+        <picture><source srcset="images/hero/hero-bg.webp" type="image/webp"><img src="images/hero/hero-bg.jpg" alt="Exterior of the blue barn at Blue 42's Brewing Barn in Moyock, NC" width="1600" height="1068" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>Night crowd outside the barn</b><small>Amanda Kielar Photography</small></span>
       </button>
-      <button type="button" class="gallery-tile gallery-photo" data-title="Caramel Apple Latte" data-credit="" data-photos="[{&quot;src&quot;:&quot;images/gallery/gallery-caramel-apple-latte.jpg&quot;,&quot;alt&quot;:&quot;Iced Caramel Apple Latte topped with whipped cream and caramel drizzle at Blue 42's Brewing Barn&quot;}]">
-        <picture>
-          <source srcset="images/gallery/gallery-caramel-apple-latte.webp" type="image/webp">
-          <img src="images/gallery/gallery-caramel-apple-latte.jpg" alt="Iced Caramel Apple Latte topped with whipped cream and caramel drizzle at Blue 42's Brewing Barn" width="750" height="1000" loading="lazy" decoding="async">
-        </picture>
-        <span>Caramel Apple Latte</span>
+      <button type="button" class="gm-tile" data-cat="exterior">
+        <span class="gm-tag">The Barn</span>
+        <picture><source srcset="images/gallery/gallery-cheers.webp" type="image/webp"><img src="images/gallery/gallery-cheers.jpg" alt="Friends toasting drinks together at Blue 42's Brewing Barn" width="900" height="900" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>Cheers at the Barn</b><small>Amanda Kielar Photography</small></span>
       </button>
-      <button type="button" class="gallery-tile gallery-photo" data-title="Honey Bun Latte" data-credit="" data-photos="[{&quot;src&quot;:&quot;images/gallery/gallery-honey-bun-latte.jpg&quot;,&quot;alt&quot;:&quot;Iced Honey Bun Latte at Blue 42's Brewing Barn&quot;}]">
-        <picture>
-          <source srcset="images/gallery/gallery-honey-bun-latte.webp" type="image/webp">
-          <img src="images/gallery/gallery-honey-bun-latte.jpg" alt="Iced Honey Bun Latte at Blue 42's Brewing Barn" width="750" height="1000" loading="lazy" decoding="async">
-        </picture>
-        <span>Honey Bun Latte</span>
+      <button type="button" class="gm-tile" data-cat="livemusic">
+        <span class="gm-tag">Live Music</span>
+        <picture><source srcset="images/gallery/gallery-livemusic.webp" type="image/webp"><img src="images/gallery/gallery-livemusic.jpg" alt="Live band performing on stage at Blue 42's Brewing Barn" width="800" height="803" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>Live music weekends</b></span>
       </button>
-      <button type="button" class="gallery-tile gallery-photo" data-title="Pumpkin Mocha" data-credit="" data-photos="[{&quot;src&quot;:&quot;images/gallery/gallery-pumpkin-mocha.jpg&quot;,&quot;alt&quot;:&quot;Iced Pumpkin Mocha topped with whipped cream and chocolate drizzle at Blue 42's Brewing Barn&quot;}]">
-        <picture>
-          <source srcset="images/gallery/gallery-pumpkin-mocha.webp" type="image/webp">
-          <img src="images/gallery/gallery-pumpkin-mocha.jpg" alt="Iced Pumpkin Mocha topped with whipped cream and chocolate drizzle at Blue 42's Brewing Barn" width="750" height="1000" loading="lazy" decoding="async">
-        </picture>
-        <span>Pumpkin Mocha</span>
+      <button type="button" class="gm-tile" data-cat="livemusic">
+        <span class="gm-tag">Live Music</span>
+        <picture><source srcset="images/gallery/gallery-lawn.webp" type="image/webp"><img src="images/gallery/gallery-lawn.jpg" alt="Live band playing for a crowd on the back lawn at Blue 42's Brewing Barn" width="900" height="900" loading="lazy" decoding="async"></picture>
+        <span class="gm-cap"><b>The back lawn</b></span>
       </button>
+    </div>
+    <div class="gm-follow">
+      <h2>There's always more on Facebook &amp; Instagram</h2>
+      <p>New specials, events and photos get posted there first.</p>
+      <a class="btn btn-primary" href="https://www.facebook.com/Blue42sBrewingBarn" target="_blank" rel="noopener">Follow on Facebook</a>
+      <a class="btn btn-outline" href="https://www.instagram.com/blue42sbrewingbarn/" target="_blank" rel="noopener">Instagram</a>
     </div>
   </div>
 </section>
 
 <!-- ================= GALLERY LIGHTBOX ================= -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close photo viewer">&times;</button>
-  <button type="button" class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous photo">&#8249;</button>
-  <div class="lightbox-body">
-    <img id="lightboxImg" alt="">
-    <div class="lightbox-caption">
-      <span id="lightboxTitle"></span>
-      <small id="lightboxCredit"></small>
-      <small id="lightboxCounter" class="lightbox-counter"></small>
-    </div>
+<div class="gm-lb" id="gmLb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <button type="button" class="gm-x" id="gmX" aria-label="Close photo viewer">&times;</button>
+  <div class="gm-count" id="gmCount" aria-live="polite"></div>
+  <div class="gm-stage">
+    <button type="button" class="gm-nb gm-prev" id="gmPrev" aria-label="Previous photo">&#8249;</button>
+    <img class="gm-big" id="gmBig" alt="">
+    <button type="button" class="gm-nb gm-next" id="gmNext" aria-label="Next photo">&#8250;</button>
   </div>
-  <button type="button" class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next photo">&#8250;</button>
+  <div class="gm-meta"><b id="gmTitle"></b><div id="gmCredit"></div></div>
+  <div class="gm-thumbs" id="gmThumbs"></div>
 </div>
 
 <!-- ================= CTA ================= -->
@@ -1371,146 +1402,113 @@
     .catch(() => { /* keep the fallback markup already in the page */ });
 </script>
 
-<!-- Gallery lightbox: opens a photo's album (one or more photos) when a
-     tile is tapped, with keyboard/prev/next navigation. Also loads the
-     topics/photos from data/gallery.json so /admin can manage them --
-     if that fetch fails, the hardcoded tiles above (each already
-     carrying its own photo data) still open the lightbox just fine. -->
+<!-- Gallery: topics/photos come from data/gallery.json so /admin-style edits
+     show up automatically. If that fetch fails, the tiles already in the page
+     (generated from the same data) work exactly the same. -->
 <script>
 (function () {
-  var grid = document.getElementById('galleryGrid');
-  var lb = document.getElementById('lightbox');
+  var grid = document.getElementById('gmGrid');
+  var chipsEl = document.getElementById('gmChips');
+  var lb = document.getElementById('gmLb');
   if (!grid || !lb) return;
-  var lbImg = document.getElementById('lightboxImg');
-  var lbTitle = document.getElementById('lightboxTitle');
-  var lbCredit = document.getElementById('lightboxCredit');
-  var lbCounter = document.getElementById('lightboxCounter');
-  var lbClose = document.getElementById('lightboxClose');
-  var lbPrev = document.getElementById('lightboxPrev');
-  var lbNext = document.getElementById('lightboxNext');
+  var $ = function (id) { return document.getElementById(id); };
+  var big = $('gmBig'), thumbs = $('gmThumbs');
+  var filter = 'all', cur = 0, vis = [], lastFocus = null;
 
-  var currentPhotos = [];
-  var currentIndex = 0;
-  var currentTitle = '';
-  var currentCredit = '';
-  var lastFocused = null;
-
-  function showPhoto(i) {
-    if (!currentPhotos.length) return;
-    currentIndex = (i + currentPhotos.length) % currentPhotos.length;
-    var p = currentPhotos[currentIndex];
-    lbImg.src = p.src;
-    lbImg.alt = p.alt || currentTitle;
-    lbTitle.textContent = currentTitle;
-    lbCredit.textContent = currentCredit || '';
-    lbCredit.style.display = currentCredit ? '' : 'none';
-    var multi = currentPhotos.length > 1;
-    lbPrev.style.display = multi ? '' : 'none';
-    lbNext.style.display = multi ? '' : 'none';
-    lbCounter.style.display = multi ? '' : 'none';
-    lbCounter.textContent = (currentIndex + 1) + ' / ' + currentPhotos.length;
+  function visibleTiles() {
+    return Array.prototype.slice.call(grid.querySelectorAll('.gm-tile')).filter(function (t) { return !t.classList.contains('gm-hide'); });
   }
-
-  function openLightbox(photos, title, credit, startIndex, triggerEl) {
-    if (!photos || !photos.length) return;
-    currentPhotos = photos;
-    currentTitle = title || '';
-    currentCredit = credit || '';
-    lastFocused = triggerEl || document.activeElement;
-    showPhoto(startIndex || 0);
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    lbClose.focus();
-  }
-
-  function closeLightbox() {
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-    lbImg.src = '';
-    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
-  }
-
-  lbClose.addEventListener('click', closeLightbox);
-  lbPrev.addEventListener('click', function () { showPhoto(currentIndex - 1); });
-  lbNext.addEventListener('click', function () { showPhoto(currentIndex + 1); });
-  lb.addEventListener('click', function (e) { if (e.target === lb) closeLightbox(); });
-  document.addEventListener('keydown', function (e) {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape') { closeLightbox(); return; }
-    if (e.key === 'ArrowLeft') { showPhoto(currentIndex - 1); return; }
-    if (e.key === 'ArrowRight') { showPhoto(currentIndex + 1); return; }
-    if (e.key === 'Tab') {
-      var items = [lbClose, lbPrev, lbNext].filter(function (el) { return el.offsetParent !== null; });
-      var i = items.indexOf(document.activeElement);
-      if (i === -1) return;
-      var next = e.shiftKey ? i - 1 : i + 1;
-      if (next < 0) next = items.length - 1;
-      if (next >= items.length) next = 0;
-      e.preventDefault();
-      items[next].focus();
-    }
-  });
-
-  function parsePhotos(tile) {
-    try { return JSON.parse(tile.getAttribute('data-photos') || '[]'); } catch (e) { return []; }
-  }
-
-  function bindGalleryTiles() {
-    grid.querySelectorAll('.gallery-tile').forEach(function (tile) {
-      tile.addEventListener('click', function () {
-        openLightbox(parsePhotos(tile), tile.getAttribute('data-title') || '', tile.getAttribute('data-credit') || '', 0, tile);
-      });
+  function applyFilter(k) {
+    filter = k;
+    Array.prototype.forEach.call(chipsEl.querySelectorAll('.gm-chip'), function (c) { c.classList.toggle('on', c.getAttribute('data-k') === k); });
+    Array.prototype.forEach.call(grid.querySelectorAll('.gm-tile'), function (t) {
+      t.classList.toggle('gm-hide', k !== 'all' && t.getAttribute('data-cat') !== k);
     });
   }
+  chipsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('.gm-chip'); if (b) applyFilter(b.getAttribute('data-k'));
+  });
 
-  bindGalleryTiles();
-
-  function tileEl(topic) {
-    var tile = document.createElement('button');
-    tile.type = 'button';
-    tile.className = 'gallery-tile gallery-photo';
-    var cover = (topic.photos && topic.photos[0]) || {};
-    tile.setAttribute('data-photos', JSON.stringify(topic.photos || []));
-    tile.setAttribute('data-title', topic.title || '');
-    tile.setAttribute('data-credit', topic.credit || '');
-
-    var img = document.createElement('img');
-    img.src = cover.src || '';
-    img.alt = cover.alt || topic.title || '';
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    tile.appendChild(img);
-
-    var span = document.createElement('span');
-    span.textContent = topic.title || '';
-    tile.appendChild(span);
-
-    if (topic.photos && topic.photos.length > 1) {
-      var count = document.createElement('small');
-      count.className = 'gallery-count';
-      count.textContent = topic.photos.length + ' photos';
-      tile.appendChild(count);
-    } else if (topic.credit) {
-      var credit = document.createElement('small');
-      credit.style.cssText = 'font-size:0.7rem; font-weight:400; opacity:0.95; margin-top:2px; position:relative; z-index:2; text-shadow:0 1px 3px rgba(0,0,0,0.6);';
-      credit.textContent = topic.credit;
-      tile.appendChild(credit);
-    }
-
-    return tile;
+  function info(tile) {
+    var img = tile.querySelector('img');
+    return {
+      src: img.getAttribute('src'),
+      alt: img.getAttribute('alt') || '',
+      title: (tile.querySelector('.gm-cap b') || {}).textContent || '',
+      credit: (tile.querySelector('.gm-cap small') || {}).textContent || ''
+    };
   }
+  function show(n) {
+    if (!vis.length) return;
+    cur = (n + vis.length) % vis.length;
+    var d = info(vis[cur]);
+    big.src = d.src; big.alt = d.alt;
+    $('gmTitle').textContent = d.title; $('gmCredit').textContent = d.credit;
+    $('gmCount').textContent = (cur + 1) + ' / ' + vis.length;
+    thumbs.innerHTML = '';
+    vis.forEach(function (t, k) {
+      var b = document.createElement('button'); b.type = 'button';
+      b.className = k === cur ? 'on' : ''; b.setAttribute('aria-label', info(t).title || 'Photo ' + (k + 1));
+      var im = document.createElement('img'); im.src = info(t).src; im.alt = '';
+      b.appendChild(im); b.addEventListener('click', function () { show(k); }); thumbs.appendChild(b);
+    });
+    var cb = thumbs.children[cur]; if (cb && cb.scrollIntoView) cb.scrollIntoView({ inline: 'center', block: 'nearest' });
+  }
+  function open(tile) {
+    vis = visibleTiles(); lastFocus = tile;
+    lb.hidden = false; lb.classList.add('open'); document.body.style.overflow = 'hidden';
+    show(vis.indexOf(tile)); $('gmX').focus();
+  }
+  function close() {
+    lb.classList.remove('open'); lb.hidden = true; document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+  grid.addEventListener('click', function (e) { var t = e.target.closest('.gm-tile'); if (t) open(t); });
+  $('gmX').addEventListener('click', close);
+  $('gmPrev').addEventListener('click', function () { show(cur - 1); });
+  $('gmNext').addEventListener('click', function () { show(cur + 1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('gm-stage')) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') show(cur - 1);
+    else if (e.key === 'ArrowRight') show(cur + 1);
+  });
+  var sx = null;
+  lb.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+    sx = null;
+  });
 
-  function renderGallery(data) {
+  function esc(x) { var d = document.createElement('div'); d.textContent = x == null ? '' : x; return d.innerHTML.replace(/"/g, '&quot;'); }
+  function render(data) {
     if (!Array.isArray(data.topics) || !data.topics.length) return;
-    grid.innerHTML = '';
-    data.topics.forEach(function (topic) { grid.appendChild(tileEl(topic)); });
-    bindGalleryTiles();
+    var total = 0, tiles = '', chips = '';
+    data.topics.forEach(function (t) {
+      var ps = (t.photos || []).filter(function (p) { return p && p.src; });
+      if (!ps.length) return;
+      chips += '<button type="button" class="gm-chip" data-k="' + esc(t.id) + '">' + esc(t.title) + '<small>' + ps.length + '</small></button>';
+      ps.forEach(function (p) {
+        total++;
+        var cap = p.caption || t.title || '';
+        var webp = /\.jpe?g$/i.test(p.src) ? p.src.replace(/\.jpe?g$/i, '.webp') : '';
+        tiles += '<button type="button" class="gm-tile" data-cat="' + esc(t.id) + '"><span class="gm-tag">' + esc(t.title) + '</span>' +
+          '<picture>' + (webp ? '<source srcset="' + esc(webp) + '" type="image/webp">' : '') + '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || cap) + '" loading="lazy" decoding="async"></picture>' +
+          '<span class="gm-cap"><b>' + esc(cap) + '</b>' + (t.credit ? '<small>' + esc(t.credit) + '</small>' : '') + '</span></button>';
+      });
+    });
+    if (!total) return;
+    chipsEl.innerHTML = '<button type="button" class="gm-chip" data-k="all">All<small>' + total + '</small></button>' + chips;
+    grid.innerHTML = tiles;
+    applyFilter('all');
   }
-
   fetch('data/gallery.json', { cache: 'no-store' })
     .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('gallery.json not found')); })
-    .then(renderGallery)
-    .catch(function () { /* keep the fallback tiles already in the page */ });
+    .then(render)
+    .catch(function () { /* keep the tiles already in the page */ });
 })();
 </script>
 
